@@ -55,7 +55,7 @@ class _HomeViewState extends State<HomeView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               onPressed: () async {
                                 await Navigator.push(
                                   context,
@@ -67,8 +67,11 @@ class _HomeViewState extends State<HomeView> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {},
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                deleteAppliance(appliance);
+                                setState(() {});
+                              },
                             ),
                           ],
                         ),

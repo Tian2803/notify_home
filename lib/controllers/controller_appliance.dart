@@ -25,7 +25,8 @@ Future<List<Appliance>> getApplianceDetails(String applianceId) async {
     });
     return appliances;
   } catch (e) {
-    throw Exception('Error al obtener la información de los electrodomésticos en la base de datos');
+    throw Exception(
+        'Error al obtener la información de los electrodomésticos en la base de datos');
   }
 }
 
@@ -45,8 +46,18 @@ void updateAppliance(Appliance appliance) {
   }).then((_) {
     print('Electrodomestico actualizado correctamente');
   }).catchError((error) {
-    print('Error al actualizar el producto: $error');
+    print('Error al actualizar el electrodomestico: $error');
   });
 }
 
+void deleteAppliance(Appliance appliance) {
+  DocumentReference applianceRef = FirebaseFirestore.instance
+      .collection('electrodomesticos')
+      .doc(appliance.id);
 
+  applianceRef.delete().then((doc) {
+    print("Electrodomesticos eliminado correctamente");
+  }).catchError((error) {
+    print('Error al eliminar el electrodomestico: $error');
+  });
+}
