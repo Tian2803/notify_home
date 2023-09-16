@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
 import 'package:notify_home/controllers/controller_register_appliance.dart';
@@ -48,16 +50,14 @@ class _HomeViewState extends State<HomeView> {
                         leading: const Icon(Icons.devices),
                         title: Text(appliance.name),
                         subtitle: Text(appliance.place),
-                        children: [Text("Tiempo de uso: ${appliance.useTime}"),
-                          Text("Frecuencia de uso: ${appliance.frequency}"),
-                          Text("Descripcion: ${appliance.description}")],
-                        // Aquí debes colocar el contenido adicional que se mostrará al expandir
-                        //children: [
-                          // Puedes agregar más widgets aquí para mostrar detalles adicionales
-                          
-                          
-                          // Agrega cualquier otra información adicional que desees mostrar
-                        //],
+                        children: [
+                          ListTile(
+                            title:
+                                Text("Tiempo de uso: ${appliance.useTime} horas"),
+                            subtitle: Text(
+                                "Frecuencia de uso: ${appliance.frequency}"),
+                          ),
+                        ],
                       );
                     }).toList(),
                   );
