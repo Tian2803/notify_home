@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
+import 'package:notify_home/controllers/controller_edit_appliance.dart';
 import 'package:notify_home/controllers/controller_register_appliance.dart';
 import 'package:notify_home/models/appliance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +16,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,38 +46,43 @@ class _HomeViewState extends State<HomeView> {
                 final appliances = snapshot.data;
                 if (appliances != null && appliances.isNotEmpty) {
                   return Column(
-  children: appliances.map((appliance) {
-    return ExpansionTile(
-      leading: const Icon(Icons.devices),
-      title: Text(appliance.name),
-      subtitle: Text(appliance.place),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              // Lógica para editar el electrodoméstico aquí
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // Lógica para eliminar el electrodoméstico aquí
-            },
-          ),
-        ],
-      ),
-      children: [
-        ListTile(
-          title: Text("Tiempo de uso: ${appliance.useTime} horas"),
-          subtitle: Text("Frecuencia de uso: ${appliance.frequency}"),
-        ),
-      ],
-    );
-  }).toList(),
-);
-
+                    children: appliances.map((appliance) {
+                      return ExpansionTile(
+                        leading: const Icon(Icons.devices),
+                        title: Text(appliance.name),
+                        subtitle: Text(appliance.place),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ApplianceEditController(appliance: appliance)
+                                  ),
+                                );
+                                setState(() {});
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                        children: [
+                          ListTile(
+                            title: Text(
+                                "Tiempo de uso: ${appliance.useTime} horas"),
+                            subtitle: Text(
+                                "Frecuencia de uso: ${appliance.frequency}"),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  );
                 } else {
                   return const Text('No se encontraron electrodomésticos.');
                 }

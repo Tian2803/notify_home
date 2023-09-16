@@ -29,7 +29,7 @@ Future<List<Appliance>> getApplianceDetails(String applianceId) async {
   }
 }
 
-void updateProduct(Appliance appliance) {
+void updateAppliance(Appliance appliance) {
   // Obtén una referencia al documento del producto en Firestore
   DocumentReference applianceRef = FirebaseFirestore.instance
       .collection('electrodomesticos')
