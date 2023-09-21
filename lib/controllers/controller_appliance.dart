@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notify_home/models/appliance.dart';

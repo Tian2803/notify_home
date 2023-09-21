@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: const Color.fromARGB(255, 37, 43, 214),
       )),
-      home: LoginController(),
+      home: const LoginController(),
     );
   }
 }

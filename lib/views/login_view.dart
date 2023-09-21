@@ -19,29 +19,22 @@ class LoginView extends StatelessWidget {
   });
 
   final photo = Container(
-      margin: const EdgeInsets.only(
-        top: 40.0,
-      ),
-
-      width: 230.0,
-      height: 280.0,
-
-      decoration: const BoxDecoration(
+    margin: const EdgeInsets.only(
+      top: 40.0,
+    ),
+    width: 230.0,
+    height: 280.0,
+    decoration: const BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage("assets/images/logo.jpg"))
-      ),
-    );
+            fit: BoxFit.cover, image: AssetImage("assets/images/logo.jpg"))),
+  );
 
-    final comment = const Text(
-      "Hola, Bienvenido a Notify Hogar",
-      textAlign: TextAlign.justify,
-      style: TextStyle(
-        fontSize: 19.0,
-        fontWeight: FontWeight.bold
-      ),
-    );
+  final comment = const Text(
+    "Hola, Bienvenido a Notify Hogar",
+    textAlign: TextAlign.justify,
+    style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
+  );
 
   @override
   Widget build(BuildContext context) {

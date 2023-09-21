@@ -8,6 +8,8 @@ import 'package:notify_home/controllers/alert_dialog.dart';
 //import 'package:notify_home/controllers/controller_auxiliar.dart';
 
 class LoginController extends StatefulWidget {
+  const LoginController({super.key});
+
   @override
   _LoginControllerState createState() => _LoginControllerState();
 }

@@ -10,10 +10,10 @@ void showPersonalizedAlert(
       content: Row(
         children: [
           Icon(iconData, color: Colors.white), // Agrega el ícono aquí
-          SizedBox(width: 8), // Espacio entre el ícono y el texto
+          const SizedBox(width: 8), // Espacio entre el ícono y el texto
           Text(
             message,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ],
       ),

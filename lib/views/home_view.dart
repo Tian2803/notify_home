@@ -16,15 +16,50 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
-  
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState!.openDrawer();
+  }
+
+  final user = Container(
+    margin: const EdgeInsets.only(
+      top: 30.0, bottom: 20
+    ),
+    width: 100.0,
+    height: 100.0,
+    decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+            fit: BoxFit.cover, image: NetworkImage("https://th.bing.com/th/id/OIP.EvZTZb4KMBsXT4RiH5DVpgHaE8?pid=ImgDet&w=474&h=316&rs=1"))),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Asignamos la clave al Scaffold
+      drawer: Drawer(
+        child: Container(
+          color: Colors.blue,
+          child: Column(children: [
+            user,
+            const Text("Jaegersian",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.all(10),
+              width: double.infinity,
+              color: Colors.lightBlue[400],
+              child: const Text("Calendario"),
+            )
+          ]),
+        ),
+      ),
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              // menu desplegable
+              _openDrawer();
             },
           ),
           title: const Text('Mis Equipos')),
@@ -60,8 +95,9 @@ class _HomeViewState extends State<HomeView> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ApplianceEditController(appliance: appliance)
-                                  ),
+                                      builder: (context) =>
+                                          ApplianceEditController(
+                                              appliance: appliance)),
                                 );
                                 setState(() {});
                               },
