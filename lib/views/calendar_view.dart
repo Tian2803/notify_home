@@ -28,6 +28,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(title: const Text('Calendar App')),
       body: ListView(
         children: [
