@@ -29,7 +29,7 @@ class LoginView extends StatelessWidget {
         image: DecorationImage(
             fit: BoxFit.cover, image: AssetImage("assets/images/logo.jpg"))),
   );
-
+  
   final comment = const Text(
     "Hola, Bienvenido a Notify Hogar",
     textAlign: TextAlign.justify,
@@ -40,7 +40,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     double widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -13,7 +13,8 @@ class RegisterView extends StatelessWidget {
   final VoidCallback registerPressed;
 
   RegisterView(
-      {super.key, required this.registerPressed,
+      {super.key,
+      required this.registerPressed,
       required this.isEmailValid,
       required this.isPasswordValid,
       required this.isPasswordConfValid,
@@ -25,47 +26,44 @@ class RegisterView extends StatelessWidget {
       required this.passwordConfController});
 
   final photo = Container(
-      margin: const EdgeInsets.only(
-        top: 20.0,
-      ),
-
-      width: 220.0,
-      height: 280.0,
-
-      decoration: const BoxDecoration(
+    width: 200.0,
+    height: 260.0,
+    decoration: const BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage("assets/images/logo.jpg"))
-      ),
-    );
+            fit: BoxFit.cover, image: AssetImage("assets/images/logo.jpg"))),
+  );
 
-    final comment = const Text(
-      "Hola, Bienvenido al registro de Notify Hogar",
+  final comment = Container(
+  width: double.infinity, // Ancho máximo
+  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Espaciado horizontal
+  child: const Align(
+    alignment: Alignment.centerLeft, // Alineación izquierda
+    child: Text(
+      "Hola, Bienvenido al registro de Notify Hogar.",
       textAlign: TextAlign.justify,
-      style: TextStyle(
-        fontSize: 19.0,
-        fontWeight: FontWeight.bold
-      ),
-    );
+      style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
+    ),
+  ),
+);
+
 
   @override
   Widget build(BuildContext context) {
     double widthDevice = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(
         title: const Text('Registro usuario'),
       ),
-      backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.005),
             photo,
-            SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.020),
             comment,
-            SizedBox(height: MediaQuery.of(context).size.height * 0.035),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.030),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.91,
               child: TextField(
@@ -150,7 +148,8 @@ class RegisterView extends StatelessWidget {
             ElevatedButton(
               onPressed: registerPressed,
               child: const Text('Registrarse'),
-            ),SizedBox(height: MediaQuery.of(context).size.height * 0.010),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.040),
           ],
         ),
       ),

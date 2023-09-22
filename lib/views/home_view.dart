@@ -1,11 +1,11 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
 import 'package:notify_home/controllers/controller_edit_appliance.dart';
+import 'package:notify_home/controllers/controller_login.dart';
 import 'package:notify_home/controllers/controller_register_appliance.dart';
 import 'package:notify_home/models/appliance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notify_home/views/calendar_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key});
@@ -23,15 +23,26 @@ class _HomeViewState extends State<HomeView> {
   }
 
   final user = Container(
-    margin: const EdgeInsets.only(
-      top: 30.0, bottom: 20
-    ),
+    margin: const EdgeInsets.only(top: 30.0, bottom: 20),
     width: 100.0,
     height: 100.0,
     decoration: const BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-            fit: BoxFit.cover, image: NetworkImage("https://th.bing.com/th/id/OIP.EvZTZb4KMBsXT4RiH5DVpgHaE8?pid=ImgDet&w=474&h=316&rs=1"))),
+            fit: BoxFit.cover,
+            image: NetworkImage(
+                "https://th.bing.com/th/id/OIP.EvZTZb4KMBsXT4RiH5DVpgHaE8?pid=ImgDet&w=474&h=316&rs=1"))),
+  );
+
+  final signOut = Container(
+    margin: const EdgeInsets.only(top: 4),
+    padding: const EdgeInsets.all(10),
+    width: double.infinity,
+    color: const Color.fromARGB(209, 127, 206, 243),
+    child: const Text(
+      "Cerrar sesion",
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
   );
 
   @override
@@ -39,22 +50,52 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       key: _scaffoldKey, // Asignamos la clave al Scaffold
       drawer: Drawer(
-        child: Container(
-          color: Colors.blue,
-          child: Column(children: [
-            user,
-            const Text("Jaegersian",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.all(10),
-              width: double.infinity,
-              color: Colors.lightBlue[400],
-              child: const Text("Calendario"),
-            )
-          ]),
-        ),
-      ),
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: const Text("Jaegersian"),
+            accountEmail: const Text("sebas@gmail.com"),
+            currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+                child: Image.network(
+                  'https://th.bing.com/th/id/OIP.EvZTZb4KMBsXT4RiH5DVpgHaE8?pid=ImgDet&w=474&h=316&rs=1',
+                  width: 90, // Ajusta el ancho según tus necesidades
+                  height: 90, // Ajusta la altura según tus necesidades
+                  fit: BoxFit
+                      .cover, // Ajusta la forma en que la imagen se adapta al círculo
+                ),
+              ),
+            ),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(
+                        "https://images5.alphacoders.com/132/1320580.png"),
+                    fit: BoxFit.cover)),
+          ),
+          ListTile(
+            leading: const Icon(Icons.calendar_month),
+            title: const Text("Calendario de mantenimiento"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CalendarNotify()),
+              );
+            },
+          ),
+          Expanded(child: Container()),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text("Cerrar sesion"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginController()),
+              );
+            },
+          )
+        ],
+      )),
       appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.menu),

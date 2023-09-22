@@ -73,7 +73,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
             // Deshabilitar la interacción con el calendario
             onDayLongPressed: null,
             onHeaderTapped: null,
-            availableCalendarFormats: {CalendarFormat.month: ''},
+            availableCalendarFormats: const {CalendarFormat.month: ''},
           )
         ],
       ),
