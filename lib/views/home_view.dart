@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
 import 'package:notify_home/controllers/controller_edit_appliance.dart';
