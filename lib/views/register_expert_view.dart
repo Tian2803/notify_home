@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RegisterView extends StatelessWidget {
+class RegisterExpertView extends StatelessWidget {
   final TextEditingController nombreController;
-  final TextEditingController direccionController;
   final TextEditingController telefonoController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -12,14 +11,13 @@ class RegisterView extends StatelessWidget {
   final bool isPasswordConfValid;
   final VoidCallback registerPressed;
 
-  RegisterView(
+  RegisterExpertView(
       {super.key,
       required this.registerPressed,
       required this.isEmailValid,
       required this.isPasswordValid,
       required this.isPasswordConfValid,
       required this.nombreController,
-      required this.direccionController,
       required this.telefonoController,
       required this.emailController,
       required this.passwordController,
@@ -54,7 +52,7 @@ class RegisterView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(
-        title: const Text('Registro usuario'),
+        title: const Text('Registro de experto'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -74,18 +72,6 @@ class RegisterView extends StatelessWidget {
                   labelText: 'Nombre',
                   border: OutlineInputBorder(),
                 ),
-              ),
-            ),
-            SizedBox(height: 15, width: widthDevice),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.91,
-              child: TextField(
-                controller: direccionController,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.home_work),
-                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                    labelText: 'Direccion',
-                    border: OutlineInputBorder()),
               ),
             ),
             SizedBox(height: 15, width: widthDevice),

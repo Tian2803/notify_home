@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controller_register.dart';
+import 'package:notify_home/views/choose_user_view.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController emailController;
@@ -93,7 +93,7 @@ class LoginView extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RegisterController()));
+                            builder: (context) => ChooseRegister()));
                   },
                   child: const Text(
                     "Crear",

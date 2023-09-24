@@ -3,17 +3,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:notify_home/controllers/controller_login.dart';
 import 'package:notify_home/models/user.dart';
-import 'package:notify_home/views/register_view.dart';
+import 'package:notify_home/views/register_user_view.dart';
 import 'package:notify_home/controllers/controller_auxiliar.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
 
-class RegisterController extends StatefulWidget {
+class RegisterUserController extends StatefulWidget {
   @override
-  _RegisterControllerState createState() => _RegisterControllerState();
+  _RegisterUserControllerState createState() => _RegisterUserControllerState();
 }
 
-class _RegisterControllerState extends State<RegisterController> {
+class _RegisterUserControllerState extends State<RegisterUserController> {
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _direccionController = TextEditingController();
   final TextEditingController _telefonoController = TextEditingController();
@@ -85,18 +86,18 @@ class _RegisterControllerState extends State<RegisterController> {
               .set(usua.toJson())
               .then((value) => {
                     showPersonalizedAlert(context, "Registro exitoso", AlertMessageType.notification),
-                    Navigator.pop(context),
+                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginController()))
                   });
         }
       }
     } catch (e) {
-      showPersonalizedAlert(context,'Error al registrar la usuario $e',AlertMessageType.error);
+      showPersonalizedAlert(context,'Error al registrar al usuario $e',AlertMessageType.error);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return RegisterView(
+    return RegisterUserView(
       nombreController: _nombreController,
       direccionController: _direccionController,
       telefonoController: _telefonoController,
