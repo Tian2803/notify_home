@@ -16,7 +16,6 @@ Future<String?> getUserName() async {
     }
     return null;
   } catch (e) {
-    print('Error al obtener el nombre de usuario: $e');
     throw Exception(
         'No se pudo obtener el nombre del usuario.');
   }

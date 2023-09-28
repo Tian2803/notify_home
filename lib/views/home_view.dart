@@ -2,13 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
-import 'package:notify_home/controllers/controller_edit_appliance.dart';
 import 'package:notify_home/controllers/controller_login.dart';
 import 'package:notify_home/controllers/controller_register_appliance.dart';
 import 'package:notify_home/controllers/controller_user.dart';
 import 'package:notify_home/models/appliance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:notify_home/views/calendar_view.dart';
 
 class HomeView extends StatefulWidget {

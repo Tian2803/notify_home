@@ -153,7 +153,6 @@ class ApplianceRegisterView extends StatelessWidget {
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaCompraController.text = formattedDate;
                     } else {
-                      print("Date is not selected");
                     }
                   },
 
@@ -186,7 +185,6 @@ class ApplianceRegisterView extends StatelessWidget {
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaInstalacionController.text = formattedDate;
                     } else {
-                      print("Date is not selected");
                     }
                   },
                 ),
@@ -218,7 +216,6 @@ class ApplianceRegisterView extends StatelessWidget {
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaManteManualController.text = formattedDate;
                     } else {
-                      print("Date is not selected");
                     }
                   },
                 ),
@@ -250,7 +247,6 @@ class ApplianceRegisterView extends StatelessWidget {
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaUltMantController.text = formattedDate;
                     } else {
-                      print("Date is not selected");
                     }
                   },
                 ),
