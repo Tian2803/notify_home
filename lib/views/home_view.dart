@@ -72,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
                 } else {
                   final userName = snapshot.data;
                   return Text(
-                    'Username: $userName',
+                    '$userName',
                     style: const TextStyle(color: Colors.white),
                   );
                 }

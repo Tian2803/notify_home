@@ -21,7 +21,6 @@ Future<List<Appliance>> getApplianceDetails(String applianceId) async {
         id: doc.id,
         name: doc['name'],
         fabricante: doc['fabricante'],
-        marca: doc['marca'],
         modelo: doc['modelo'],
         tipo: doc['tipo'],
         user: doc['user'],
@@ -47,7 +46,6 @@ void updateAppliance(Appliance appliance) {
   applianceRef.update({
     'name': appliance.name,
     'fabricante': appliance.fabricante,
-    'marca': appliance.marca,
     'modelo': appliance.modelo,
     'tipo': appliance.tipo,
   }).then((_) {

@@ -2,7 +2,6 @@ class Appliance {
   final String id;
   final String name;
   final String fabricante;
-  final String marca;
   final String modelo;
   final String tipo;
   final String user;
@@ -11,7 +10,6 @@ class Appliance {
     required this.id,
     required this.name,
     required this.fabricante,
-    required this.marca,
     required this.modelo,
     required this.tipo,
     required this.user,
@@ -22,7 +20,6 @@ class Appliance {
       id: json['id'],
       name: json['name'],
       fabricante: json['fabricante'],
-      marca: json['marca'],
       modelo: json['modelo'],
       tipo: json['tipo'],
       user: json['user'],
@@ -33,7 +30,6 @@ class Appliance {
         'id': id,
         'name': name,
         'fabricante': fabricante,
-        'marca': marca,
         'modelo': modelo,
         'tipo': tipo,
         'user': user,

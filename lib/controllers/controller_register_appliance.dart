@@ -43,7 +43,6 @@ class _ApplianceRegisterControllerState
     try {
       String name = nameController.text;
       String fabricante = fabricanteController.text;
-      String marca = marcaController.text;
       String modelo = modeloController.text;
       String tipo = tipoController.text;
       String condicionAmbiental = condicionAmbientalController.text;
@@ -57,7 +56,6 @@ class _ApplianceRegisterControllerState
 
       if (name.isEmpty ||
           fabricante.isEmpty ||
-          marca.isEmpty ||
           modelo.isEmpty ||
           tipo.isEmpty ||
           condicionAmbiental.isEmpty ||
@@ -80,7 +78,6 @@ class _ApplianceRegisterControllerState
         id: applianceId,
         name: name,
         fabricante: fabricante,
-        marca: marca,
         modelo: modelo,
         tipo: tipo,
         user: uid,
@@ -134,7 +131,6 @@ class _ApplianceRegisterControllerState
     fabricanteController.dispose();
     modeloController.dispose();
     tipoController.dispose();
-    marcaController.dispose();
     condicionAmbientalController.dispose();
     fechaCompraController.dispose();
     fechaInstalacionController.dispose();
@@ -151,7 +147,6 @@ class _ApplianceRegisterControllerState
     return ApplianceRegisterView(
       nameController: nameController,
       fabricanteController: fabricanteController,
-      marcaController: marcaController,
       modeloController: modeloController,
       tipoController: tipoController,
       condicionAmbController: condicionAmbientalController,

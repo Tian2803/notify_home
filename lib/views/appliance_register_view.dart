@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 class ApplianceRegisterView extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController fabricanteController;
-  final TextEditingController marcaController;
   final TextEditingController modeloController;
   final TextEditingController tipoController;
   final TextEditingController condicionAmbController;
@@ -22,7 +21,6 @@ class ApplianceRegisterView extends StatelessWidget {
   const ApplianceRegisterView({super.key, 
     required this.nameController,
     required this.fabricanteController,
-    required this.marcaController,
     required this.modeloController,
     required this.tipoController,
     required this.condicionAmbController,
@@ -75,21 +73,6 @@ class ApplianceRegisterView extends StatelessWidget {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese nombre fabricante';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: marcaController,
-                  decoration: const InputDecoration(
-                    labelText: 'Marca',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.branding_watermark),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la marca del electrodomestico';
                     }
                     return null;
                   },

@@ -22,7 +22,6 @@ class ApplianceEditController extends StatefulWidget {
 class _ProductEditControllerState extends State<ApplianceEditController> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fabricanteController = TextEditingController();
-  final TextEditingController marcaController = TextEditingController();
   final TextEditingController modeloController = TextEditingController();
   final TextEditingController tipoController = TextEditingController();
   final TextEditingController condicionAmbientalController =
@@ -43,7 +42,6 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
     super.initState();
     nameController.text = widget.appliance.name;
     fabricanteController.text = widget.appliance.fabricante;
-    marcaController.text = widget.appliance.marca;
     modeloController.text = widget.appliance.modelo;
     tipoController.text = widget.appliance.tipo;
     condicionAmbientalController.text = widget.hve.condicionAmbiental;
@@ -64,7 +62,6 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
     try {
       String name = nameController.text;
       String fabricante = fabricanteController.text;
-      String marca = marcaController.text;
       String modelo = modeloController.text;
       String tipo = tipoController.text;
       String condicionAmbiental = condicionAmbientalController.text;
@@ -81,9 +78,6 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
       fabricante.isEmpty
           ? fabricante = widget.appliance.fabricante.toString()
           : fabricante = fabricanteController.text;
-      marca.isEmpty
-          ? marca = widget.appliance.marca
-          : marca = marcaController.text;
       modelo.isEmpty
           ? modelo = widget.appliance.modelo.toString()
           : modelo = modeloController.text;
@@ -119,7 +113,6 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
         id: widget.appliance.id,
         name: name,
         fabricante: fabricante,
-        marca: marca,
         modelo: modelo,
         tipo: tipo,
         user: uid,
@@ -152,7 +145,6 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
   void dispose() {
     nameController.dispose();
     fabricanteController.dispose();
-    marcaController.dispose();
     modeloController.dispose();
     tipoController.dispose();
     condicionAmbientalController.dispose();
@@ -171,7 +163,6 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
     return ApplianceEditView(
       nameController: nameController,
       fabricanteController: fabricanteController,
-      marcaController: marcaController,
       modeloController: modeloController,
       tipoController: tipoController,
       condicionAmbController: condicionAmbientalController,
