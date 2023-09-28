@@ -4,45 +4,52 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:notify_home/models/appliance.dart';
 
 Future<List<Appliance>> getApplianceDetails(String applianceId) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   try {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('electrodomesticos')
+    // Realiza la consulta a Firebase Firestore
+    QuerySnapshot snapshot = await firestore
+        .collection('electrodomestico')
         .where('user', isEqualTo: applianceId)
         .get();
 
+    // Inicializa una lista para almacenar los electrodomésticos
     List<Appliance> appliances = [];
-
+    // Recorre los documentos y crea instancias de la clase Appliance
     snapshot.docs.forEach((doc) {
       appliances.add(Appliance(
         id: doc.id,
         name: doc['name'],
-        place: doc['place'],
-        useTime: doc['useTime'],
-        frequency: doc['frequency'],
-        description: doc['description'],
+        fabricante: doc['fabricante'],
+        marca: doc['marca'],
+        modelo: doc['modelo'],
+        tipo: doc['tipo'],
         user: doc['user'],
       ));
     });
+    // Devuelve la lista de electrodomésticos
     return appliances;
   } catch (e) {
+    // Maneja errores de forma adecuada
+    print('Error, no se logro obtener la información de los electrodomésticos: $e');
     throw Exception(
-        'Error al obtener la información de los electrodomésticos en la base de datos');
+        'No se pudo obtener la información de los electrodomésticos.');
   }
 }
 
 void updateAppliance(Appliance appliance) {
   // Obtén una referencia al documento del producto en Firestore
   DocumentReference applianceRef = FirebaseFirestore.instance
-      .collection('electrodomesticos')
+      .collection('electrodomestico')
       .doc(appliance.id);
 
   // Actualiza los campos del producto en Firestore
   applianceRef.update({
     'name': appliance.name,
-    'place': appliance.place,
-    'useTime': appliance.useTime,
-    'frequency': appliance.frequency,
-    'description': appliance.description,
+    'fabricante': appliance.fabricante,
+    'marca': appliance.marca,
+    'modelo': appliance.modelo,
+    'tipo': appliance.tipo,
   }).then((_) {
     print('Electrodomestico actualizado correctamente');
   }).catchError((error) {
@@ -52,7 +59,7 @@ void updateAppliance(Appliance appliance) {
 
 void deleteAppliance(Appliance appliance) {
   DocumentReference applianceRef = FirebaseFirestore.instance
-      .collection('electrodomesticos')
+      .collection('electrodomestico')
       .doc(appliance.id);
 
   applianceRef.delete().then((doc) {

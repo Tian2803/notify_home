@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api, use_key_in_widget_constructors
+import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:uuid/uuid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,11 +17,22 @@ class ApplianceRegisterController extends StatefulWidget {
 class _ApplianceRegisterControllerState
     extends State<ApplianceRegisterController> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController placeController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController fabricanteController = TextEditingController();
+  final TextEditingController marcaController = TextEditingController();
   final TextEditingController usuarioNameController = TextEditingController();
-  final TextEditingController useController = TextEditingController();
-  final TextEditingController frequencyController = TextEditingController();
+  final TextEditingController modeloController = TextEditingController();
+  final TextEditingController tipoController = TextEditingController();
+  final TextEditingController condicionAmbientalController =
+      TextEditingController();
+  final TextEditingController fechaCompraController = TextEditingController();
+  final TextEditingController fechaInstalacionController =
+      TextEditingController();
+  final TextEditingController fechaManteManualController =
+      TextEditingController();
+  final TextEditingController fechaUltMantController = TextEditingController();
+  final TextEditingController tiempoUsoController = TextEditingController();
+  final TextEditingController frecuenciaUsoController = TextEditingController();
+  final TextEditingController ubicacionController = TextEditingController();
 
   String generateApplianceId() {
     var uuid = const Uuid();
@@ -30,17 +42,34 @@ class _ApplianceRegisterControllerState
   void _register() async {
     try {
       String name = nameController.text;
-      String place = placeController.text;
-      String description = descriptionController.text;
-      String use = useController.text;
-      String frequency = frequencyController.text;
+      String fabricante = fabricanteController.text;
+      String marca = marcaController.text;
+      String modelo = modeloController.text;
+      String tipo = tipoController.text;
+      String condicionAmbiental = condicionAmbientalController.text;
+      String fechaCompra = fechaCompraController.text;
+      String fechaInstalacion = fechaInstalacionController.text;
+      String fechaMManual = fechaManteManualController.text;
+      String fechaUltMant = fechaUltMantController.text;
+      String tiempoUso = tiempoUsoController.text;
+      String frecuenciaUso = frecuenciaUsoController.text;
+      String ubicacion = ubicacionController.text;
 
       if (name.isEmpty ||
-          place.isEmpty ||
-          description.isEmpty ||
-          use.isEmpty ||
-          frequency.isEmpty) {
-        showPersonalizedAlert(context, 'Por favor, llene todos los campos', AlertMessageType.warning);
+          fabricante.isEmpty ||
+          marca.isEmpty ||
+          modelo.isEmpty ||
+          tipo.isEmpty ||
+          condicionAmbiental.isEmpty ||
+          fechaCompra.isEmpty ||
+          fechaInstalacion.isEmpty ||
+          fechaMManual.isEmpty ||
+          fechaUltMant.isEmpty ||
+          tiempoUso.isEmpty ||
+          frecuenciaUso.isEmpty ||
+          ubicacion.isEmpty) {
+        showPersonalizedAlert(context, 'Por favor, llene todos los campos',
+            AlertMessageType.warning);
         return;
       }
 
@@ -50,36 +79,70 @@ class _ApplianceRegisterControllerState
       Appliance appliance = Appliance(
         id: applianceId,
         name: name,
-        place: place,
-        useTime: double.parse(use),
-        frequency: frequency,
-        description: description,
+        fabricante: fabricante,
+        marca: marca,
+        modelo: modelo,
+        tipo: tipo,
         user: uid,
       );
 
+      HojaVidaElectrodomestico hje = HojaVidaElectrodomestico(
+        id: applianceId,
+        condicionAmbiental: condicionAmbiental,
+        fechaCompra: DateTime.parse(fechaCompra),
+        fechaInstalacion: DateTime.parse(fechaInstalacion),
+        fechaMManual: DateTime.parse(fechaMManual),
+        fechaUltMantenimiento: DateTime.parse(fechaUltMant),
+        tiempoUso: int.parse(tiempoUso),
+        frecuenciaUso: frecuenciaUso,
+        ubicacion: ubicacion,
+        user: uid);
+
       await FirebaseFirestore.instance
-          .collection('electrodomesticos')
+          .collection('electrodomestico')
           .doc(applianceId)
           .set(appliance.toJson())
+          .catchError((error) => {
+                showPersonalizedAlert(
+                    context,
+                    'Error al registrar el electrodomestico',
+                    AlertMessageType.error)
+              });
+
+      await FirebaseFirestore.instance
+          .collection('hojaVidaElectrodomestico')
+          .doc(applianceId)
+          .set(hje.toJson())
           .then((value) => {
                 Navigator.pop(context),
               })
           .catchError((error) => {
-                showPersonalizedAlert(context,
-                    'Error al registrar el electrodomestico', AlertMessageType.error)
+                showPersonalizedAlert(
+                    context,
+                    'Error al registrar la hoja vida del electrodomestico',
+                    AlertMessageType.error)
               });
     } catch (e) {
-      showPersonalizedAlert(context, 'Error al registrar el electrodomestico', AlertMessageType.error);
+      showPersonalizedAlert(context, 'Error al registrar el electrodomestico',
+          AlertMessageType.error);
     }
   }
 
   @override
   void dispose() {
     nameController.dispose();
-    placeController.dispose();
-    useController.dispose();
-    frequencyController.dispose();
-    descriptionController.dispose();
+    fabricanteController.dispose();
+    modeloController.dispose();
+    tipoController.dispose();
+    marcaController.dispose();
+    condicionAmbientalController.dispose();
+    fechaCompraController.dispose();
+    fechaInstalacionController.dispose();
+    fechaManteManualController.dispose();
+    fechaUltMantController.dispose();
+    tiempoUsoController.dispose();
+    frecuenciaUsoController.dispose();
+    ubicacionController.dispose();
     super.dispose();
   }
 
@@ -87,10 +150,18 @@ class _ApplianceRegisterControllerState
   Widget build(BuildContext context) {
     return ApplianceRegisterView(
       nameController: nameController,
-      placeController: placeController,
-      useController: useController,
-      frequencyController:frequencyController,
-      descriptionController: descriptionController,
+      fabricanteController: fabricanteController,
+      marcaController: marcaController,
+      modeloController: modeloController,
+      tipoController: tipoController,
+      condicionAmbController: condicionAmbientalController,
+      fechaCompraController: fechaCompraController,
+      fechaInstalacionController: fechaInstalacionController,
+      fechaManteManualController: fechaManteManualController,
+      fechaUltMantController: fechaUltMantController,
+      tiempoUsoController: tiempoUsoController,
+      frecuenciaUsoController: frecuenciaUsoController,
+      ubicacionController: ubicacionController,
       registerPressed: _register,
     );
   }

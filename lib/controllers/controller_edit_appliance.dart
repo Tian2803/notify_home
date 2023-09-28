@@ -2,83 +2,167 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
+import 'package:notify_home/controllers/controller_hoja_vida_electrodomestico.dart';
 import 'package:notify_home/models/appliance.dart';
+import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:notify_home/views/appliance_edit_view.dart';
 
 class ApplianceEditController extends StatefulWidget {
   final Appliance appliance;
-  const ApplianceEditController({super.key, required this.appliance});
+  final HojaVidaElectrodomestico hve;
+  const ApplianceEditController(
+      {super.key, required this.appliance, required this.hve});
   @override
   _ProductEditControllerState createState() => _ProductEditControllerState();
 }
 
 class _ProductEditControllerState extends State<ApplianceEditController> {
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController placeController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController useController = TextEditingController();
-  final TextEditingController frequencyController = TextEditingController();
+  final TextEditingController fabricanteController = TextEditingController();
+  final TextEditingController marcaController = TextEditingController();
+  final TextEditingController modeloController = TextEditingController();
+  final TextEditingController tipoController = TextEditingController();
+  final TextEditingController condicionAmbientalController =
+      TextEditingController();
+  final TextEditingController fechaCompraController = TextEditingController();
+  final TextEditingController fechaInstalacionController =
+      TextEditingController();
+  final TextEditingController fechaManteManualController =
+      TextEditingController();
+  final TextEditingController fechaUltMantController = TextEditingController();
+  final TextEditingController tiempoUsoController = TextEditingController();
+  final TextEditingController frecuenciaUsoController = TextEditingController();
+  final TextEditingController ubicacionController = TextEditingController();
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
     super.initState();
     nameController.text = widget.appliance.name;
-    placeController.text = widget.appliance.place;
-    descriptionController.text = widget.appliance.description;
-    useController.text = widget.appliance.useTime.toString();
-    frequencyController.text = widget.appliance.frequency;
+    fabricanteController.text = widget.appliance.fabricante;
+    marcaController.text = widget.appliance.marca;
+    modeloController.text = widget.appliance.modelo;
+    tipoController.text = widget.appliance.tipo;
+    condicionAmbientalController.text = widget.hve.condicionAmbiental;
+    fechaCompraController.text =
+        DateFormat('yyyy-MM-dd').format(widget.hve.fechaCompra);
+    fechaInstalacionController.text =
+        DateFormat('yyyy-MM-dd').format(widget.hve.fechaInstalacion);
+    fechaManteManualController.text =
+        DateFormat('yyyy-MM-dd').format(widget.hve.fechaMManual);
+    fechaUltMantController.text =
+        DateFormat('yyyy-MM-dd').format(widget.hve.fechaUltMantenimiento);
+    tiempoUsoController.text = widget.hve.tiempoUso.toString();
+    frecuenciaUsoController.text = widget.hve.frecuenciaUso;
+    ubicacionController.text = widget.hve.ubicacion;
   }
 
   void _update() async {
     try {
       String name = nameController.text;
-      String place = placeController.text;
-      String description = descriptionController.text;
-      String useTime = useController.text;
-      String frequency = frequencyController.text;
+      String fabricante = fabricanteController.text;
+      String marca = marcaController.text;
+      String modelo = modeloController.text;
+      String tipo = tipoController.text;
+      String condicionAmbiental = condicionAmbientalController.text;
+      String fechaCompra = fechaCompraController.text;
+      String fechaInstalacion = fechaInstalacionController.text;
+      String fechaMManual = fechaManteManualController.text;
+      String fechaUltMant = fechaUltMantController.text;
+      String tiempoUso = tiempoUsoController.text;
+      String frecuenciaUso = frecuenciaUsoController.text;
+      String ubicacion = ubicacionController.text;
 
       //En caso de que un campo quede vacio no se actualiza
       name.isEmpty ? name = widget.appliance.name : name = nameController.text;
-      place.isEmpty
-          ? place = widget.appliance.place.toString()
-          : place = placeController.text;
-      description.isEmpty
-          ? description = widget.appliance.description
-          : description = descriptionController.text;
-      useTime.isEmpty
-          ? useTime = widget.appliance.useTime.toString()
-          : useTime = useController.text;
-      frequency.isEmpty
-          ? frequency = widget.appliance.frequency.toString()
-          : frequency = frequencyController.text;
+      fabricante.isEmpty
+          ? fabricante = widget.appliance.fabricante.toString()
+          : fabricante = fabricanteController.text;
+      marca.isEmpty
+          ? marca = widget.appliance.marca
+          : marca = marcaController.text;
+      modelo.isEmpty
+          ? modelo = widget.appliance.modelo.toString()
+          : modelo = modeloController.text;
+      tipo.isEmpty
+          ? tipo = widget.appliance.tipo.toString()
+          : tipo = tipoController.text;
+      condicionAmbiental.isEmpty
+          ? condicionAmbiental = widget.hve.condicionAmbiental.toString()
+          : condicionAmbiental = condicionAmbientalController.text;
+      fechaCompra.isEmpty
+          ? fechaCompra = widget.hve.fechaCompra.toString()
+          : fechaCompra = fechaCompraController.text;
+      fechaInstalacion.isEmpty
+          ? fechaInstalacion = widget.hve.fechaInstalacion.toString()
+          : fechaInstalacion = fechaInstalacionController.text;
+      fechaCompra.isEmpty
+          ? fechaMManual = widget.hve.fechaMManual.toString()
+          : fechaMManual = fechaManteManualController.text;
+      fechaUltMant.isEmpty
+          ? fechaUltMant = widget.hve.fechaUltMantenimiento.toString()
+          : fechaUltMant = fechaUltMantController.text;
+      tiempoUso.isEmpty
+          ? tiempoUso = widget.hve.tiempoUso.toString()
+          : tiempoUso = tiempoUsoController.text;
+      frecuenciaUso.isEmpty
+          ? frecuenciaUso = widget.hve.frecuenciaUso.toString()
+          : frecuenciaUso = frecuenciaUsoController.text;
+      ubicacion.isEmpty
+          ? ubicacion = widget.hve.ubicacion.toString()
+          : ubicacion = ubicacionController.text;
 
       Appliance appliance = Appliance(
-          id: widget.appliance.id,
-          name: name,
-          place: place,
-          useTime: double.parse(useTime),
-          frequency: frequency,
-          description: description, 
-          user: uid,);
+        id: widget.appliance.id,
+        name: name,
+        fabricante: fabricante,
+        marca: marca,
+        modelo: modelo,
+        tipo: tipo,
+        user: uid,
+      );
+
+      HojaVidaElectrodomestico hvel = HojaVidaElectrodomestico(
+          id: widget.hve.id,
+          condicionAmbiental: condicionAmbiental,
+          fechaCompra: DateTime.parse(fechaCompra),
+          fechaInstalacion: DateTime.parse(fechaInstalacion),
+          fechaMManual: DateTime.parse(fechaMManual),
+          fechaUltMantenimiento: DateTime.parse(fechaUltMant),
+          tiempoUso: int.parse(tiempoUso),
+          frecuenciaUso: frecuenciaUso,
+          ubicacion: ubicacion,
+          user: uid);
 
       Navigator.pop(context);
       updateAppliance(appliance);
-      showPersonalizedAlert(context, 'Producto actualizado correctamente',AlertMessageType.success);
+      updateHJAppliance(hvel);
+      showPersonalizedAlert(context, 'Electrodomestico actualizado correctamente',
+          AlertMessageType.success);
     } catch (e) {
-      showPersonalizedAlert(context, 'Error al actualizar el electrodomestico', AlertMessageType.error);
+      showPersonalizedAlert(context, 'Error al actualizar el electrodomestico',
+          AlertMessageType.error);
     }
   }
 
   @override
   void dispose() {
     nameController.dispose();
-    placeController.dispose();
-    descriptionController.dispose();
-    useController.dispose();
-    frequencyController.dispose();
+    fabricanteController.dispose();
+    marcaController.dispose();
+    modeloController.dispose();
+    tipoController.dispose();
+    condicionAmbientalController.dispose();
+    fechaCompraController.dispose();
+    fechaInstalacionController.dispose();
+    fechaManteManualController.dispose();
+    fechaUltMantController.dispose();
+    tiempoUsoController.dispose();
+    frecuenciaUsoController.dispose();
+    ubicacionController.dispose();
     super.dispose();
   }
 
@@ -86,10 +170,18 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
   Widget build(BuildContext context) {
     return ApplianceEditView(
       nameController: nameController,
-      placeController: placeController,
-      useController: useController,
-      frequencyController: frequencyController,
-      descriptionController: descriptionController,
+      fabricanteController: fabricanteController,
+      marcaController: marcaController,
+      modeloController: modeloController,
+      tipoController: tipoController,
+      condicionAmbController: condicionAmbientalController,
+      fechaCompraController: fechaCompraController,
+      fechaInstalacionController: fechaInstalacionController,
+      fechaManteManualController: fechaManteManualController,
+      fechaUltMantController: fechaUltMantController,
+      tiempoUsoController: tiempoUsoController,
+      frecuenciaUsoController: frecuenciaUsoController,
+      ubicacionController: ubicacionController,
       updatePressed: _update,
     );
   }

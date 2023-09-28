@@ -4,18 +4,34 @@ import 'package:flutter/material.dart';
 
 class ApplianceEditView extends StatelessWidget {
   final TextEditingController nameController;
-  final TextEditingController placeController;
-  final TextEditingController descriptionController;
-  final TextEditingController useController;
-  final TextEditingController frequencyController;
+  final TextEditingController fabricanteController;
+  final TextEditingController marcaController;
+  final TextEditingController modeloController;
+  final TextEditingController tipoController;
+  final TextEditingController condicionAmbController;
+  final TextEditingController fechaCompraController;
+  final TextEditingController fechaInstalacionController;
+  final TextEditingController fechaManteManualController;
+  final TextEditingController fechaUltMantController;
+  final TextEditingController tiempoUsoController;
+  final TextEditingController frecuenciaUsoController;
+  final TextEditingController ubicacionController;
   final VoidCallback updatePressed;
 
   const ApplianceEditView({
     required this.nameController,
-    required this.placeController,
-    required this.descriptionController,
-    required this.useController,
-    required this.frequencyController,
+    required this.fabricanteController,
+    required this.marcaController,
+    required this.modeloController,
+    required this.tipoController,
+    required this.condicionAmbController,
+    required this.fechaCompraController,
+    required this.fechaInstalacionController,
+    required this.fechaManteManualController,
+    required this.fechaUltMantController,
+    required this.tiempoUsoController,
+    required this.frecuenciaUsoController,
+    required this.ubicacionController,
     required this.updatePressed,
   });
 
@@ -49,45 +65,45 @@ class ApplianceEditView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: placeController,
+                  controller: fabricanteController,
                   decoration: const InputDecoration(
-                    labelText: 'Ubicacion',
+                    labelText: 'Fabricante',
                     border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.navigation_rounded),
+                    prefixIcon: Icon(Icons.business),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la ubicacion de electrodomestico';
+                      return 'Por favor ingrese nombre fabricante';
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: descriptionController,
+                  controller: marcaController,
                   decoration: const InputDecoration(
-                    labelText: 'Descripción',
+                    labelText: 'Marca',
                     border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.description),
+                    prefixIcon: Icon(Icons.branding_watermark),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la descripción del electrodomestico';
+                      return 'Por favor ingrese la marca del electrodomestico';
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: useController,
+                  controller: modeloController,
                   decoration: const InputDecoration(
-                    labelText: 'Tiempo de uso  en horas',
+                    labelText: 'Modelo',
                     border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.timelapse_outlined),
+                    prefixIcon: Icon(Icons.unfold_more_double_sharp),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese el tiempo de uso  en horas';
+                      return 'Por favor ingrese el modelo del electrodomestico';
                     }
                     return null;
                   },
@@ -95,15 +111,142 @@ class ApplianceEditView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: frequencyController,
+                  controller: tipoController,
                   decoration: const InputDecoration(
-                    labelText: 'Frecuencia de uso',
+                    labelText: 'Tipo',
                     border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.timer),
+                    prefixIcon: Icon(Icons.energy_savings_leaf),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la frecuencia de uso';
+                      return 'Por favor ingrese el tipo de electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: condicionAmbController,
+                  decoration: const InputDecoration(
+                    labelText: 'Tipo',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.air_outlined),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la condicion ambiental';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: fechaCompraController,
+                  decoration: const InputDecoration(
+                    labelText: 'Fecha compra',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.date_range_rounded),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la fecha de compra del electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: fechaInstalacionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Fecha instalacion',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.date_range_rounded),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la fecha de instalacion del electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: fechaManteManualController,
+                  decoration: const InputDecoration(
+                    labelText: 'Fecha mantenimiento del manual de usuario',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.date_range_rounded),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la fecha de instalacion del electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: fechaUltMantController,
+                  decoration: const InputDecoration(
+                    labelText: 'Fecha ultimo mantenimiento',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.date_range_rounded),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la fecha del del ultimo mantenimineto del electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: tiempoUsoController,
+                  decoration: const InputDecoration(
+                    labelText: 'Tiempo de uso',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.timer_outlined),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese el tiempo de uso del electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: frecuenciaUsoController,
+                  decoration: const InputDecoration(
+                    labelText: 'Frecuencia de uso',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.av_timer_outlined),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la frecuencia de uso del electrodomestico';
+                    }
+                    return null;
+                  },
+                  readOnly: false,
+                ),
+                TextFormField(
+                  controller: ubicacionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Ubicacion',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.navigation_rounded),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese la ubicacion del electrodomestico';
                     }
                     return null;
                   },

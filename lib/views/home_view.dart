@@ -5,8 +5,10 @@ import 'package:notify_home/controllers/controller_appliance.dart';
 import 'package:notify_home/controllers/controller_edit_appliance.dart';
 import 'package:notify_home/controllers/controller_login.dart';
 import 'package:notify_home/controllers/controller_register_appliance.dart';
+import 'package:notify_home/controllers/controller_user.dart';
 import 'package:notify_home/models/appliance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:notify_home/views/calendar_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -19,10 +21,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   void _openDrawer() {
     _scaffoldKey.currentState!.openDrawer();
   }
+
+  Future<String?> nameUser = getUserName();
+  final email = FirebaseAuth.instance.currentUser!.email;
 
   final user = Container(
     margin: const EdgeInsets.only(top: 30.0, bottom: 20),
@@ -46,7 +50,7 @@ class _HomeViewState extends State<HomeView> {
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     ),
   );
-
+  //Aqui va la  hoja de
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +60,28 @@ class _HomeViewState extends State<HomeView> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: const Text("Jaegersian"),
-            accountEmail: const Text("sebas@gmail.com"),
+            accountName: FutureBuilder<String?>(
+              future: getUserName(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data == null) {
+                  return const Text('Usuario no autenticado o sin nombre.');
+                } else {
+                  final userName = snapshot.data;
+                  return Text(
+                    'Username: $userName',
+                    style: const TextStyle(color: Colors.white),
+                  );
+                }
+              },
+            ),
+            accountEmail: Text(
+              "$email",
+              style: const TextStyle(color: Colors.white),
+            ),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(
@@ -71,8 +95,8 @@ class _HomeViewState extends State<HomeView> {
             ),
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(
-                        "https://images5.alphacoders.com/132/1320580.png"),
+                    image: AssetImage(
+                        "assets/images/fondo.png"),
                     fit: BoxFit.cover)),
           ),
           ListTile(
@@ -92,7 +116,8 @@ class _HomeViewState extends State<HomeView> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginController()),
+                MaterialPageRoute(
+                    builder: (context) => const LoginController()),
               );
             },
           )
@@ -125,14 +150,14 @@ class _HomeViewState extends State<HomeView> {
                 if (appliances != null && appliances.isNotEmpty) {
                   return Column(
                     children: appliances.map((appliance) {
-                      return ExpansionTile(
+                      return ListTile(
                         leading: const Icon(Icons.devices),
                         title: Text(appliance.name),
-                        subtitle: Text(appliance.place),
+                        //subtitle: Text(hve.fabricante),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            IconButton(
+                            /*IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () async {
                                 await Navigator.push(
@@ -140,11 +165,11 @@ class _HomeViewState extends State<HomeView> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           ApplianceEditController(
-                                              appliance: appliance)),
+                                              appliance: appliance, hve: null,)),
                                 );
                                 setState(() {});
                               },
-                            ),
+                            ),*/
                             IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () async {
@@ -154,14 +179,6 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ),
-                        children: [
-                          ListTile(
-                            title: Text(
-                                "Tiempo de uso: ${appliance.useTime} horas"),
-                            subtitle: Text(
-                                "Frecuencia de uso: ${appliance.frequency}"),
-                          ),
-                        ],
                       );
                     }).toList(),
                   );
