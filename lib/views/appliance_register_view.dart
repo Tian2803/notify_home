@@ -293,22 +293,6 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     height: 40,
                   ),
                 )),
-
-                /*TextFormField(
-                  controller: frecuenciaUsoController,
-                  decoration: const InputDecoration(
-                    labelText: 'Frecuencia de uso',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.av_timer_outlined),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la frecuencia de uso del electrodomestico';
-                    }
-                    return null;
-                  },
-                  readOnly: false,
-                ),*/
                 const SizedBox(height: 16.0),
                 TextFormField(
                   controller: ubicacionController,

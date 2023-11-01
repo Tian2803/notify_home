@@ -77,6 +77,8 @@ void registerPropietario(
           context,
           MaterialPageRoute(builder: (context) => const LoginController()),
         );
+      }else{
+        showPersonalizedAlert(context, "Las contraseñas no coinciden", AlertMessageType.error);
       }
     }
   } catch (e) {

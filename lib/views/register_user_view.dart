@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notify_home/controllers/controller_auxiliar.dart';
 import 'package:notify_home/controllers/propietario_controller.dart';
 
 class RegisterUserView extends StatefulWidget {
@@ -15,6 +16,14 @@ class _RegisterUserViewState extends State<RegisterUserView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfController = TextEditingController();
+
+  bool isPasswordValid = true;
+
+  void _validatePassword(String password) {
+    setState(() {
+      isPasswordValid = checkPasswordRequirements(password);
+    });
+  }
 
   final photo = Container(
     width: 200.0,
@@ -107,14 +116,31 @@ class _RegisterUserViewState extends State<RegisterUserView> {
             SizedBox(height: 15, width: widthDevice),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.91,
-              child: TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.vpn_key),
-                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                    labelText: 'Contraseña',
-                    border: OutlineInputBorder()),
-                obscureText: true,
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  TextField(
+                    controller: passwordController,
+                    onChanged: _validatePassword,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.vpn_key),
+                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      labelText: 'Contraseña',
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                  ),
+                  if (!isPasswordValid)
+                    const Padding(
+                      padding: EdgeInsets.all(
+                          8), // Ajusta el margen del mensaje de error
+                      child: Text(
+                        'Contraseña no válida, debe contener al menos 10 caracteres, incluyendo al menos una letra mayúscula, una minúscula y un número',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                ],
               ),
             ),
             SizedBox(height: 15, width: widthDevice),
