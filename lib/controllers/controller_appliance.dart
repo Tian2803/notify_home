@@ -1,6 +1,10 @@
-// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, use_build_context_synchronously
 
+//YA FUNCIONA BIEN
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:notify_home/controllers/alert_dialog.dart';
 import 'package:notify_home/models/appliance.dart';
 
 Future<List<Appliance>> getApplianceDetails(String applianceId) async {
@@ -30,7 +34,8 @@ Future<List<Appliance>> getApplianceDetails(String applianceId) async {
     return appliances;
   } catch (e) {
     // Maneja errores de forma adecuada
-    print('Error, no se logro obtener la información de los electrodomésticos: $e');
+    print(
+        'Error, no se logro obtener la información de los electrodomésticos: $e');
     throw Exception(
         'No se pudo obtener la información de los electrodomésticos.');
   }
@@ -65,4 +70,35 @@ void deleteAppliance(Appliance appliance) {
   }).catchError((error) {
     print('Error al eliminar el electrodomestico: $error');
   });
+}
+
+void registerAppliance(BuildContext context, String name, String fabricante,
+    String modelo, String tipo, String applianceId) async {
+  try {
+    if (name.isEmpty || fabricante.isEmpty || modelo.isEmpty || tipo.isEmpty) {
+      showPersonalizedAlert(context, 'Por favor, llene todos los campos',
+          AlertMessageType.warning);
+      return;
+    }
+
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    Appliance appliance = Appliance(
+      id: applianceId,
+      name: name,
+      fabricante: fabricante,
+      modelo: modelo,
+      tipo: tipo,
+      user: uid,
+    );
+
+    await FirebaseFirestore.instance
+        .collection('electrodomestico')
+        .doc(applianceId)
+        .set(appliance.toJson());
+        
+  } catch (e) {
+    showPersonalizedAlert(context, 'Error al registrar el electrodomestico',
+        AlertMessageType.error);
+  }
 }

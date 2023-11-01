@@ -1,22 +1,26 @@
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: use_build_context_synchronously, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_appliance.dart';
-import 'package:notify_home/controllers/controller_login.dart';
-import 'package:notify_home/controllers/controller_register_appliance.dart';
-import 'package:notify_home/controllers/controller_user.dart';
+import 'package:notify_home/controllers/controller_edit_appliance.dart';
+import 'package:notify_home/controllers/expert_controller.dart';
+import 'package:notify_home/controllers/hoja_vida_electrodomestico_controller.dart';
+import 'package:notify_home/controllers/login_controller.dart';
+import 'package:notify_home/controllers/propietario_controller.dart';
 import 'package:notify_home/models/appliance.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:notify_home/views/calendar_view.dart';
+import 'package:notify_home/views/hoja_vida_show_view.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key});
+class HomeViewExpert extends StatefulWidget {
+  const HomeViewExpert({Key? key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeViewExpert> createState() => _HomeViewExpertState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewExpertState extends State<HomeViewExpert> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   void _openDrawer() {
@@ -25,7 +29,6 @@ class _HomeViewState extends State<HomeView> {
 
   Future<String?> nameUser = getUserName();
   final email = FirebaseAuth.instance.currentUser!.email;
-
   final user = Container(
     margin: const EdgeInsets.only(top: 30.0, bottom: 20),
     width: 100.0,
@@ -59,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
         children: <Widget>[
           UserAccountsDrawerHeader(
             accountName: FutureBuilder<String?>(
-              future: getUserName(),
+              future: getUserNameExperto(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
@@ -93,8 +96,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(
-                        "assets/images/fondo.png"),
+                    image: AssetImage("assets/images/fondo.png"),
                     fit: BoxFit.cover)),
           ),
           ListTile(
@@ -148,14 +150,34 @@ class _HomeViewState extends State<HomeView> {
                 if (appliances != null && appliances.isNotEmpty) {
                   return Column(
                     children: appliances.map((appliance) {
-                      return ListTile(
+                      return ExpansionTile(
                         leading: const Icon(Icons.devices),
                         title: Text(appliance.name),
-                        //subtitle: Text(hve.fabricante),
+                        subtitle: Text(appliance.fabricante),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            /*IconButton(
+                            IconButton(
+                                icon: const Icon(Icons.visibility_outlined),
+                                onPressed: () async {
+                                  try {
+                                    HojaVidaElectrodomestico hojaVid =
+                                        await getHojaVidaDetails(
+                                            uid, appliance.id);
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HojaVidaShowView(
+                                                    hojaVida: hojaVid)));
+                                    setState(() {});
+                                  } catch (e) {
+                                    // Maneja la excepción, por ejemplo, mostrando un mensaje de error.
+                                    print(
+                                        'Error al obtener detalles de la hoja de vida: $e');
+                                  }
+                                }),
+                            IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () async {
                                 await Navigator.push(
@@ -163,20 +185,20 @@ class _HomeViewState extends State<HomeView> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           ApplianceEditController(
-                                              appliance: appliance, hve: null,)),
+                                            appliance: appliance,
+                                          )),
                                 );
-                                setState(() {});
-                              },
-                            ),*/
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () async {
-                                deleteAppliance(appliance);
                                 setState(() {});
                               },
                             ),
                           ],
                         ),
+                        children: [
+                          ListTile(
+                            title: Text("Modelo: ${appliance.modelo}"),
+                            subtitle: Text("Tipo: ${appliance.tipo}"),
+                          ),
+                        ],
                       );
                     }).toList(),
                   );
@@ -187,20 +209,7 @@ class _HomeViewState extends State<HomeView> {
             },
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Agrega la funcionalidad para el botón flotante aquí.
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ApplianceRegisterController()),
-          );
-          setState(() {});
-        },
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      )
     );
   }
 }

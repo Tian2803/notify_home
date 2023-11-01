@@ -1,29 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:notify_home/controllers/propietario_controller.dart';
 
-class RegisterUserView extends StatelessWidget {
-  final TextEditingController nombreController;
-  final TextEditingController direccionController;
-  final TextEditingController telefonoController;
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
-  final TextEditingController passwordConfController;
-  final bool isEmailValid;
-  final bool isPasswordValid;
-  final bool isPasswordConfValid;
-  final VoidCallback registerPressed;
+class RegisterUserView extends StatefulWidget {
+  const RegisterUserView({super.key});
 
-  RegisterUserView(
-      {super.key,
-      required this.registerPressed,
-      required this.isEmailValid,
-      required this.isPasswordValid,
-      required this.isPasswordConfValid,
-      required this.nombreController,
-      required this.direccionController,
-      required this.telefonoController,
-      required this.emailController,
-      required this.passwordController,
-      required this.passwordConfController});
+  @override
+  State<RegisterUserView> createState() => _RegisterUserViewState();
+}
+
+class _RegisterUserViewState extends State<RegisterUserView> {
+  final TextEditingController nombreController = TextEditingController();
+  final TextEditingController direccionController = TextEditingController();
+  final TextEditingController telefonoController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordConfController = TextEditingController();
 
   final photo = Container(
     width: 200.0,
@@ -35,18 +26,18 @@ class RegisterUserView extends StatelessWidget {
   );
 
   final comment = Container(
-  width: double.infinity, // Ancho máximo
-  padding: const EdgeInsets.symmetric(horizontal: 16.0), // Espaciado horizontal
-  child: const Align(
-    alignment: Alignment.centerLeft, // Alineación izquierda
-    child: Text(
-      "Hola, Bienvenido al registro de Notify Hogar.",
-      textAlign: TextAlign.justify,
-      style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
+    width: double.infinity, // Ancho máximo
+    padding:
+        const EdgeInsets.symmetric(horizontal: 16.0), // Espaciado horizontal
+    child: const Align(
+      alignment: Alignment.centerLeft, // Alineación izquierda
+      child: Text(
+        "Hola, Bienvenido al registro de Notify Hogar.",
+        textAlign: TextAlign.justify,
+        style: TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
+      ),
     ),
-  ),
-);
-
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -105,13 +96,11 @@ class RegisterUserView extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.91,
               child: TextField(
                 controller: emailController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.email),
-                  contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.email),
+                  contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                   labelText: 'Correo electrónico',
-                  border: const OutlineInputBorder(),
-                  errorText:
-                      isEmailValid ? null : 'Correo electrónico inválido',
+                  border: OutlineInputBorder(),
                 ),
               ),
             ),
@@ -124,7 +113,6 @@ class RegisterUserView extends StatelessWidget {
                     prefixIcon: Icon(Icons.vpn_key),
                     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                     labelText: 'Contraseña',
-                    //errorText: isPasswordValid ? null : 'Contraseña inválida',
                     border: OutlineInputBorder()),
                 obscureText: true,
               ),
@@ -138,15 +126,22 @@ class RegisterUserView extends StatelessWidget {
                     prefixIcon: Icon(Icons.vpn_key),
                     contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                     labelText: 'Confirmar contraseña',
-                    //errorText:
-                    //isPasswordConfValid ? null : 'Contraseña inválida',
                     border: OutlineInputBorder()),
                 obscureText: true,
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.040),
             ElevatedButton(
-              onPressed: registerPressed,
+              onPressed: () {
+                registerPropietario(
+                    context,
+                    nombreController.text,
+                    direccionController.text,
+                    telefonoController.text,
+                    emailController.text,
+                    passwordController.text,
+                    passwordConfController.text);
+              },
               child: const Text('Registrarse'),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.040),

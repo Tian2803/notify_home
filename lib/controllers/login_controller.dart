@@ -1,11 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:notify_home/controllers/expert_controller.dart';
+import 'package:notify_home/views/home_view_experto.dart';
 import 'package:notify_home/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notify_home/views/home_view.dart';
+import 'package:notify_home/views/home_view_user.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-//import 'package:notify_home/controllers/controller_auxiliar.dart';
 
 class LoginController extends StatefulWidget {
   const LoginController({super.key});
@@ -29,18 +30,24 @@ class _LoginControllerState extends State<LoginController> {
       // Extrayendo la información de la compañía autenticada desde la base de datos
       User? user = userCredential.user;
       String userId = user!.uid;
-      //UserController usuarioController = UserController();
-      //Usuario usuario = await usuarioController.getUsuarioDetails(userId);
+
+      //se usa el operador await para esperar a que getExpertoId() se complete.
+      String? expId = await getExpertoId();
       // Navegando a la vista de electrodomesticos
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const HomeView()));
+      if (userId == expId) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HomeViewExpert()));
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HomeViewUser()));
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        showPersonalizedAlert(context, 'Usuario no encontrado', AlertMessageType.warning);
+        showPersonalizedAlert(
+            context, 'Usuario no encontrado', AlertMessageType.warning);
       } else if (e.code == 'wrong-password') {
-        showPersonalizedAlert(context, 'Contraseña incorrecta', AlertMessageType.warning);
+        showPersonalizedAlert(
+            context, 'Contraseña incorrecta', AlertMessageType.warning);
       }
     }
   }
@@ -51,7 +58,8 @@ class _LoginControllerState extends State<LoginController> {
 
     // Validando que el email y la contraseña no estén vacíos
     if (email.isEmpty || password.isEmpty) {
-      showPersonalizedAlert(context, 'Por favor ingrese su email y contraseña',AlertMessageType.error);
+      showPersonalizedAlert(context, 'Por favor ingrese su email y contraseña',
+          AlertMessageType.error);
       return;
     }
 

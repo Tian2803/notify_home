@@ -1,6 +1,7 @@
+//FUNCIONA BIEN
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controller_register_expert.dart';
-import 'package:notify_home/controllers/controller_register_user.dart';
+import 'package:notify_home/views/register_expert_view.dart';
+import 'package:notify_home/views/register_user_view.dart';
 
 class ChooseRegister extends StatelessWidget {
   ChooseRegister({super.key});
@@ -56,7 +57,7 @@ class ChooseRegister extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterUserController()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterUserView()));
                     },
                     child: const Text('Presiona aqui'),
                   ),
@@ -93,7 +94,7 @@ class ChooseRegister extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterExpertController()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterExpertView()));
                     },
                     child:
                         const Text('Presiona aqui'),

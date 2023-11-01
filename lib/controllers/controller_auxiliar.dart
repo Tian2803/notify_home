@@ -1,9 +1,5 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
-
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:notify_home/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class AuthController {
   static bool validateEmail(String email) {
@@ -26,25 +22,11 @@ class AuthController {
   }
 }
 
-/*class UserController {
-  Future<Usuario> getUsuarioDetails(String usuarioId) async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('usuarios')
-        .doc(usuarioId)
-        .get();
-    if (snapshot.exists) {
-      return Usuario(
-        id: snapshot.id,
-        name: snapshot['name'],
-        email: snapshot['email'],
-        phone: snapshot['phone'],
-      );
-    } else {
-      throw Exception('No se encontró la empresa en la base de datos');
-    }
-  }
-}*/
-
 void clearTextField(TextEditingController controller) {
   controller.clear();
 }
+
+String generateApplianceId() {
+    var uuid = const Uuid();
+    return uuid.v4();
+  }

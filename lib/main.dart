@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controller_login.dart';
+import 'package:notify_home/controllers/login_controller.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
