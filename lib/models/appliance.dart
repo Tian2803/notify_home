@@ -4,6 +4,7 @@ class Appliance {
   final String fabricante;
   final String modelo;
   final String tipo;
+  final String expertoId;
   final String user;
 
   Appliance({
@@ -12,6 +13,7 @@ class Appliance {
     required this.fabricante,
     required this.modelo,
     required this.tipo,
+    required this.expertoId,
     required this.user,
   });
 
@@ -22,6 +24,7 @@ class Appliance {
       fabricante: json['fabricante'],
       modelo: json['modelo'],
       tipo: json['tipo'],
+      expertoId: json['expertoId'],
       user: json['user'],
     );
   }
@@ -32,6 +35,7 @@ class Appliance {
         'fabricante': fabricante,
         'modelo': modelo,
         'tipo': tipo,
+        'expertoId': expertoId,
         'user': user,
       };
 }

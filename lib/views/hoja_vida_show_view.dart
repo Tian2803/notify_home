@@ -12,7 +12,7 @@ class HojaVidaShowView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(248, 248, 248, 246),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Detalles de la hoja de vida'),
       ),
@@ -27,11 +27,11 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Ubicacion: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: hojaVida.ubicacion,
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -42,11 +42,11 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Condicion ambiental: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: hojaVida.condicionAmbiental,
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -57,12 +57,12 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Fecha de compra: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text:
                           DateFormat('dd/MM/yyyy').format(hojaVida.fechaCompra),
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -73,12 +73,12 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Fecha de instalacion: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: DateFormat('dd/MM/yyyy')
                           .format(hojaVida.fechaInstalacion),
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -89,12 +89,12 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Fecha de mantenimiento manual: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: DateFormat('dd/MM/yyyy')
                           .format(hojaVida.fechaMManual),
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -105,12 +105,12 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Fecha de ultimo mantenimiento: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: DateFormat('dd/MM/yyyy')
                           .format(hojaVida.fechaUltMantenimiento),
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -121,11 +121,11 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Frecuencia de uso: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: hojaVida.frecuenciaUso,
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),
@@ -136,11 +136,11 @@ class HojaVidaShowView extends StatelessWidget {
                   children: [
                     const TextSpan(
                       text: 'Tiempo de uso: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextSpan(
                       text: hojaVida.tiempoUso.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
                     ),
                   ],
                 ),

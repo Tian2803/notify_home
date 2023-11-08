@@ -57,7 +57,8 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
         fabricante: fabricante,
         modelo: modelo,
         tipo: tipo,
-        user: uid,
+        user: uid, 
+        expertoId: '',
       );
 
       Navigator.pop(context);

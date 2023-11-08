@@ -35,6 +35,7 @@ dependencies:
   firebase_core: ^2.15.1
   flutter:
     sdk: flutter
+  flutter_phone_direct_caller: ^2.1.1
   fluttertoast: ^8.2.2
   intl: ^0.18.1
   provider: ^6.0.5

@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:notify_home/views/appliance_register_view.dart';
 import 'package:notify_home/views/calendar_view.dart';
+import 'package:notify_home/views/contactar_experto_view.dart';
 import 'package:notify_home/views/hoja_vida_show_view.dart';
 
 class HomeViewUser extends StatefulWidget {
@@ -55,6 +56,7 @@ class _HomeViewUserState extends State<HomeViewUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey, // Asignamos la clave al Scaffold
       drawer: Drawer(
           child: ListView(
@@ -109,6 +111,15 @@ class _HomeViewUserState extends State<HomeViewUser> {
               );
             },
           ),
+          ListTile(
+              leading: const Icon(Icons.person_search_rounded),
+              title: const Text("Contactar experto"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ContactarExperto()));
+              }),
           Expanded(child: Container()),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
@@ -130,7 +141,7 @@ class _HomeViewUserState extends State<HomeViewUser> {
               _openDrawer();
             },
           ),
-          title: const Text('Mis Equipos')),
+          title: const Text("Mis Equipos")),
       body: ListView(
         children: [
           FutureBuilder<List<Appliance>>(
@@ -152,8 +163,9 @@ class _HomeViewUserState extends State<HomeViewUser> {
                     children: appliances.map((appliance) {
                       return ExpansionTile(
                         leading: const Icon(Icons.devices),
-                        title: Text(appliance.name),
-                        subtitle: Text(appliance.fabricante),
+                        title:
+                            Text("${appliance.name} ${appliance.fabricante}"),
+                        subtitle: Text("Experto: ${appliance.expertoId}"),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
