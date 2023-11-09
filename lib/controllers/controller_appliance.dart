@@ -93,7 +93,7 @@ void registerAppliance(BuildContext context, String name, String fabricante,
       modelo: modelo,
       tipo: tipo,
       user: uid,
-      expertoId: "",
+      expertoId: '""',
     );
 
     await FirebaseFirestore.instance
