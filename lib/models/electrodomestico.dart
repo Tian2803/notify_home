@@ -1,4 +1,4 @@
-class Appliance {
+class Electrodomestico {
   final String id;
   final String name;
   final String fabricante;
@@ -7,7 +7,7 @@ class Appliance {
   final String expertoId;
   final String user;
 
-  Appliance({
+  Electrodomestico({
     required this.id,
     required this.name,
     required this.fabricante,
@@ -17,8 +17,8 @@ class Appliance {
     required this.user,
   });
 
-  factory Appliance.fromJson(Map<String, dynamic> json) {
-    return Appliance(
+  factory Electrodomestico.fromJson(Map<String, dynamic> json) {
+    return Electrodomestico(
       id: json['id'],
       name: json['name'],
       fabricante: json['fabricante'],

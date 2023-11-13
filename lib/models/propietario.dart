@@ -1,13 +1,13 @@
 // company.dart
 
-class Usuario {
+class Propietario {
   final String id;
   final String name;
   final String address;
   final String email;
   final String phone;
 
-  Usuario({
+  Propietario({
     required this.id,
     required this.name,
     required this.address, 
@@ -15,8 +15,8 @@ class Usuario {
     required this.phone
   });
 
-  factory Usuario.fromJson(Map<String, dynamic> json) {
-    return Usuario(
+  factory Propietario.fromJson(Map<String, dynamic> json) {
+    return Propietario(
       id: json['id'],
       name: json['name'],
       address: json['address'],

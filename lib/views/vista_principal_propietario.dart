@@ -1,18 +1,18 @@
 // ignore_for_file: use_build_context_synchronously, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controller_appliance.dart';
-import 'package:notify_home/controllers/controller_edit_appliance.dart';
-import 'package:notify_home/controllers/hoja_vida_electrodomestico_controller.dart';
+import 'package:notify_home/controllers/controller_electrodomestico.dart';
+import 'package:notify_home/controllers/controller_edit_electrodomestico.dart';
+import 'package:notify_home/controllers/controller_hoja_vida_electrodomestico.dart';
 import 'package:notify_home/controllers/login_controller.dart';
-import 'package:notify_home/controllers/propietario_controller.dart';
-import 'package:notify_home/models/appliance.dart';
+import 'package:notify_home/controllers/controller_propietario.dart';
+import 'package:notify_home/models/electrodomestico.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
-import 'package:notify_home/views/appliance_register_view.dart';
-import 'package:notify_home/views/calendar_view.dart';
-import 'package:notify_home/views/contactar_experto_view.dart';
-import 'package:notify_home/views/hoja_vida_show_view.dart';
+import 'package:notify_home/views/vista_registro_electrodomestico.dart';
+import 'package:notify_home/views/vista_calendario.dart';
+import 'package:notify_home/views/vista_contactar_experto_.dart';
+import 'package:notify_home/views/vista_mostrar_hoja_vida.dart';
 
 class HomeViewUser extends StatefulWidget {
   const HomeViewUser({Key? key});
@@ -144,7 +144,7 @@ class _HomeViewUserState extends State<HomeViewUser> {
           title: const Text("Mis Equipos")),
       body: ListView(
         children: [
-          FutureBuilder<List<Appliance>>(
+          FutureBuilder<List<Electrodomestico>>(
             future: getApplianceDetails(uid),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

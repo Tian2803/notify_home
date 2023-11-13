@@ -5,10 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/expert_controller.dart';
-import 'package:notify_home/models/appliance.dart';
+import 'package:notify_home/controllers/controlador_experto.dart';
+import 'package:notify_home/models/electrodomestico.dart';
 
-Future<List<Appliance>> getApplianceDetails(String applianceId) async {
+Future<List<Electrodomestico>> getApplianceDetails(String applianceId) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   try {
@@ -19,11 +19,11 @@ Future<List<Appliance>> getApplianceDetails(String applianceId) async {
         .get();
 
     // Inicializa una lista para almacenar los electrodomésticos
-    List<Appliance> appliances = [];
+    List<Electrodomestico> appliances = [];
     // Recorre los documentos y crea instancias de la clase Appliance
     for (var doc in snapshot.docs) {
       String? expertName = await getExpertoName(doc['expertoId']);
-      appliances.add(Appliance(
+      appliances.add(Electrodomestico(
         id: doc.id,
         name: doc['name'],
         fabricante: doc['fabricante'],
@@ -44,7 +44,7 @@ Future<List<Appliance>> getApplianceDetails(String applianceId) async {
   }
 }
 
-void updateAppliance(Appliance appliance) {
+void updateAppliance(Electrodomestico appliance) {
   // Obtén una referencia al documento del producto en Firestore
   DocumentReference applianceRef = FirebaseFirestore.instance
       .collection('electrodomestico')
@@ -63,7 +63,7 @@ void updateAppliance(Appliance appliance) {
   });
 }
 
-void deleteAppliance(Appliance appliance) {
+void deleteAppliance(Electrodomestico appliance) {
   DocumentReference applianceRef = FirebaseFirestore.instance
       .collection('electrodomestico')
       .doc(appliance.id);
@@ -86,7 +86,7 @@ void registerAppliance(BuildContext context, String name, String fabricante,
 
     final uid = FirebaseAuth.instance.currentUser!.uid;
 
-    Appliance appliance = Appliance(
+    Electrodomestico appliance = Electrodomestico(
       id: applianceId,
       name: name,
       fabricante: fabricante,
@@ -118,9 +118,6 @@ Future<List<String>> getApplianceWithInfo(String userId) async {
     List<String> appliance = [];
     snapshot.docs.forEach((doc) {
       var name = doc['name'];
-      //var serialNumber = doc['id'];
-      // Combina el nombre y la información adicional y se agréga a la lista
-      //var applianceInfo = '$name - Serial: $serialNumber';
       appliance.add(name);
     });
 
@@ -166,7 +163,7 @@ Future<String> getApplianceId(String applianceName, String userId) async {
   }
 }
 
-Future<List<Appliance>> getApplianceDetailsExperto(String expertId) async {
+Future<List<Electrodomestico>> getApplianceDetailsExperto(String expertId) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   try {
@@ -177,10 +174,10 @@ Future<List<Appliance>> getApplianceDetailsExperto(String expertId) async {
         .get();
 
     // Inicializa una lista para almacenar los electrodomésticos
-    List<Appliance> appliances = [];
+    List<Electrodomestico> appliances = [];
     // Recorre los documentos y crea instancias de la clase Appliance
     snapshot.docs.forEach((doc) {
-      appliances.add(Appliance(
+      appliances.add(Electrodomestico(
         id: doc.id,
         name: doc['name'],
         fabricante: doc['fabricante'],

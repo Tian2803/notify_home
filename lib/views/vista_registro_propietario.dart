@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controller_auxiliar.dart';
-import 'package:notify_home/controllers/propietario_controller.dart';
+import 'package:notify_home/controllers/controller_propietario.dart';
 
 class RegisterUserView extends StatefulWidget {
   const RegisterUserView({super.key});

@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:notify_home/views/choose_user_view.dart';
+import 'package:notify_home/views/vista_escoger_tipo_usuaerio.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController emailController;

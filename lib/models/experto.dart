@@ -6,12 +6,11 @@ class Experto {
   final String email;
   final String phone;
 
-  Experto({
-    required this.id,
-    required this.name, 
-    required this.email, 
-    required this.phone
-  });
+  Experto(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.phone});
 
   factory Experto.fromJson(Map<String, dynamic> json) {
     return Experto(

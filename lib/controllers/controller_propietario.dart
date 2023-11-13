@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
 import 'package:notify_home/controllers/controller_auxiliar.dart';
 import 'package:notify_home/controllers/login_controller.dart';
-import 'package:notify_home/models/user.dart';
+import 'package:notify_home/models/propietario.dart';
 
 Future<String?> getUserName() async {
   try {
@@ -58,7 +58,7 @@ void registerPropietario(
         );
         String idUser = userCredential.user!.uid;
 
-        Usuario usuario = Usuario(
+        Propietario usuario = Propietario(
           id: idUser,
           name: propietario,
           address: direccion,

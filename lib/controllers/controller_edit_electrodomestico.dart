@@ -3,15 +3,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/controller_appliance.dart';
-import 'package:notify_home/models/appliance.dart';
-import 'package:notify_home/views/editar_appliance_view.dart';
+import 'package:notify_home/controllers/controller_electrodomestico.dart';
+import 'package:notify_home/models/electrodomestico.dart';
+import 'package:notify_home/views/vista_editar_electrodomestico.dart';
 
 class ApplianceEditController extends StatefulWidget {
-  final Appliance appliance;
-  //final HojaVidaElectrodomestico hve;
+  final Electrodomestico appliance;
   const ApplianceEditController(
-      {super.key, required this.appliance, /*required this.hve*/});
+      {super.key, required this.appliance});
   @override
   _ProductEditControllerState createState() => _ProductEditControllerState();
 }
@@ -51,7 +50,7 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
           ? tipo = widget.appliance.tipo.toString()
           : tipo = tipoController.text;
 
-      Appliance appliance = Appliance(
+      Electrodomestico appliance = Electrodomestico(
         id: widget.appliance.id,
         name: name,
         fabricante: fabricante,

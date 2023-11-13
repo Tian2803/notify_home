@@ -1,11 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/expert_controller.dart';
-import 'package:notify_home/views/home_view_experto.dart';
+import 'package:notify_home/controllers/controlador_experto.dart';
+import 'package:notify_home/views/vista_principal_experto.dart';
 import 'package:notify_home/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notify_home/views/home_view_user.dart';
+import 'package:notify_home/views/vista_principal_propietario.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
 
 class LoginController extends StatefulWidget {

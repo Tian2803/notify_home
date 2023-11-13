@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/expert_controller.dart';
+import 'package:notify_home/controllers/controlador_experto.dart';
 
 class RegisterExpertView extends StatefulWidget {
   const RegisterExpertView({super.key});

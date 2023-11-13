@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controller_appliance.dart';
-import 'package:notify_home/controllers/controller_edit_appliance.dart';
-import 'package:notify_home/controllers/expert_controller.dart';
+import 'package:notify_home/controllers/controller_electrodomestico.dart';
+import 'package:notify_home/controllers/controller_edit_electrodomestico.dart';
+import 'package:notify_home/controllers/controlador_experto.dart';
 import 'package:notify_home/controllers/login_controller.dart';
-import 'package:notify_home/controllers/propietario_controller.dart';
-import 'package:notify_home/models/appliance.dart';
+import 'package:notify_home/controllers/controller_propietario.dart';
+import 'package:notify_home/models/electrodomestico.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:notify_home/views/calendar_view.dart';
+import 'package:notify_home/views/vista_calendario.dart';
 
 class HomeViewExpert extends StatefulWidget {
   const HomeViewExpert({Key? key});
@@ -132,7 +132,7 @@ class _HomeViewExpertState extends State<HomeViewExpert> {
             title: const Text('Equipos asignados')),
         body: ListView(
           children: [
-            FutureBuilder<List<Appliance>>(
+            FutureBuilder<List<Electrodomestico>>(
               future: getApplianceDetailsExperto(uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
