@@ -33,7 +33,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
   List<String> items = ["Diario", "Semanal", "Mensual"];
   String? selectedValue;
 
-  String applianceId = generateApplianceId();
+  String applianceId = generateId();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

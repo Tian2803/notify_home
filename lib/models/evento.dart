@@ -1,21 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Evento {
   final String id;
   final String titulo;
-  final int anho;
-  final int mes;
-  final int dia;
-  final String electrodomesticoId;
+  final DateTime date;
+  final String electrodomestico;
   final int prioridad;
+  final String userId;
 
   Evento(
-      {required this.titulo,
-      this.id = '',
-      this.anho = 0,
-      this.mes = 0,
-      this.dia = 0,
-      this.electrodomesticoId = '',
-      this.prioridad = 0});
+      {
+      required this.titulo,
+      required this.id,
+      required this.date,
+      required this.electrodomestico,
+      required this.prioridad, 
+      required this.userId});
 
-  @override
-  String toString() => titulo;
+  factory Evento.fromJson(Map<String, dynamic> json) {
+    return Evento(
+        titulo: json['titulo'],
+        id: json['id'],
+        date: (json['date']  as Timestamp).toDate(),
+        electrodomestico: json['electrodomestico'],
+        prioridad: json['prioridad'],
+        userId: json['userId']);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'titulo': titulo,
+        'id': id,
+        'date': Timestamp.fromDate(date),
+        'electrodomestico': electrodomestico,
+        'prioridad': prioridad,
+        'userId': userId
+      };
+
 }
+

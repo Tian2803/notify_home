@@ -1,7 +1,7 @@
 //FUNCIONA BIEN
 import 'package:flutter/material.dart';
-import 'package:notify_home/views/vista_registro_experto.dart';
-import 'package:notify_home/views/vista_registro_propietario.dart';
+import 'package:notify_home/views/control_acceso_autenticacion/vista_registro_experto.dart';
+import 'package:notify_home/views/control_acceso_autenticacion/vista_registro_propietario.dart';
 
 class ChooseRegister extends StatelessWidget {
   ChooseRegister({super.key});

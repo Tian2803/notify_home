@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controlador_experto.dart';
+import 'package:notify_home/views/control_acceso_autenticacion/login_view.dart';
 import 'package:notify_home/views/vista_principal_experto.dart';
-import 'package:notify_home/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notify_home/views/vista_principal_propietario.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';

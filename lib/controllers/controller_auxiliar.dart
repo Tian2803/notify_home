@@ -26,9 +26,21 @@ void clearTextField(TextEditingController controller) {
   controller.clear();
 }
 
-String generateApplianceId() {
+String generateId() {
   var uuid = const Uuid();
   return uuid.v4();
+}
+
+int anho() {
+  return DateTime.now().year;
+}
+
+int mes() {
+  return DateTime.now().month;
+}
+
+int dia() {
+  return DateTime.now().day;
 }
 
 bool checkPasswordRequirements(String password) {

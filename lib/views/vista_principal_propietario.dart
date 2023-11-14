@@ -9,9 +9,9 @@ import 'package:notify_home/controllers/controller_propietario.dart';
 import 'package:notify_home/models/electrodomestico.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
-import 'package:notify_home/views/vista_registro_electrodomestico.dart';
+import 'package:notify_home/views/propietario/vista_registro_electrodomestico.dart';
 import 'package:notify_home/views/vista_calendario.dart';
-import 'package:notify_home/views/vista_contactar_experto_.dart';
+import 'package:notify_home/views/propietario/vista_contactar_experto_.dart';
 import 'package:notify_home/views/vista_mostrar_hoja_vida.dart';
 
 class HomeViewUser extends StatefulWidget {
