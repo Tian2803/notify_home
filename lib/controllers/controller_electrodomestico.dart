@@ -28,7 +28,7 @@ Future<List<Electrodomestico>> getApplianceDetails(String applianceId) async {
         name: doc['name'],
         fabricante: doc['fabricante'],
         modelo: doc['modelo'],
-        tipo: doc['tipo'],
+        calificacionEnergetica: doc['calificacionEnergetica'],
         user: doc['user'],
         expertoId: expertName,
       ));
@@ -55,7 +55,7 @@ void updateAppliance(Electrodomestico appliance) {
     'name': appliance.name,
     'fabricante': appliance.fabricante,
     'modelo': appliance.modelo,
-    'tipo': appliance.tipo,
+    'tipo': appliance.calificacionEnergetica,
   }).then((_) {
     print('Electrodomestico actualizado correctamente');
   }).catchError((error) {
@@ -76,9 +76,12 @@ void deleteAppliance(Electrodomestico appliance) {
 }
 
 void registerAppliance(BuildContext context, String name, String fabricante,
-    String modelo, String tipo, String applianceId) async {
+    String modelo, String calificacionEnergetica, String applianceId) async {
   try {
-    if (name.isEmpty || fabricante.isEmpty || modelo.isEmpty || tipo.isEmpty) {
+    if (name.isEmpty ||
+        fabricante.isEmpty ||
+        modelo.isEmpty ||
+        calificacionEnergetica.isEmpty) {
       showPersonalizedAlert(context, 'Por favor, llene todos los campos',
           AlertMessageType.warning);
       return;
@@ -91,7 +94,7 @@ void registerAppliance(BuildContext context, String name, String fabricante,
       name: name,
       fabricante: fabricante,
       modelo: modelo,
-      tipo: tipo,
+      calificacionEnergetica: calificacionEnergetica,
       user: uid,
       expertoId: '""',
     );
@@ -163,7 +166,8 @@ Future<String> getApplianceId(String applianceName, String userId) async {
   }
 }
 
-Future<List<Electrodomestico>> getApplianceDetailsExperto(String expertId) async {
+Future<List<Electrodomestico>> getApplianceDetailsExperto(
+    String expertId) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   try {
@@ -182,7 +186,7 @@ Future<List<Electrodomestico>> getApplianceDetailsExperto(String expertId) async
         name: doc['name'],
         fabricante: doc['fabricante'],
         modelo: doc['modelo'],
-        tipo: doc['tipo'],
+        calificacionEnergetica: doc['calificacionEnergetica'],
         user: doc['user'],
         expertoId: doc['expertoId'],
       ));
@@ -195,5 +199,20 @@ Future<List<Electrodomestico>> getApplianceDetailsExperto(String expertId) async
         'Error, no se logro obtener la información de los electrodomésticos: $e');
     throw Exception(
         'No se pudo obtener la información de los electrodomésticos.');
+  }
+}
+
+Future<String> getIdPropietario(String idExperto) async {
+  try {
+    final userDoc = await FirebaseFirestore.instance
+        .collection('electrodomestico')
+        .where('expertoId', isEqualTo: idExperto)
+        .get();
+
+    final userName = userDoc.docs.first['user'];
+    print(userName);
+    return userName;
+  } catch (e) {
+    throw Exception('No se pudo obtener el nombre del usuario.');
   }
 }

@@ -1,43 +1,59 @@
-// ignore_for_file: modelo_key_in_widget_constructors
+// ignore_for_file: library_private_types_in_public_api
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:intl/intl.dart';
-import 'package:notify_home/controllers/controller_electrodomestico.dart';
-import 'package:notify_home/controllers/controller_auxiliar.dart';
-import 'package:notify_home/controllers/controller_hoja_vida_electrodomestico.dart';
 
-class ApplianceRegisterView extends StatefulWidget {
-  const ApplianceRegisterView({super.key});
+class HVEditView extends StatefulWidget {
+  final TextEditingController nameController;
+  final TextEditingController fabricanteController;
+  final TextEditingController modeloController;
+  final TextEditingController calificacionEnergeticaController;
+  final TextEditingController condicionAmbController;
+  final TextEditingController fechaCompraController;
+  final TextEditingController fechaInstalacionController;
+  final TextEditingController fechaUltMantController;
+  final TextEditingController tiempoUsoController;
+  final TextEditingController frecuenciaUsoController;
+  final TextEditingController ubicacionController;
+  final VoidCallback updatePressed;
+
+  HVEditView({
+    Key? key,
+    required this.nameController,
+    required this.fabricanteController,
+    required this.modeloController,
+    required this.calificacionEnergeticaController,
+    required this.condicionAmbController,
+    required this.fechaCompraController,
+    required this.fechaInstalacionController,
+    required this.fechaUltMantController,
+    required this.tiempoUsoController,
+    required this.frecuenciaUsoController,
+    required this.ubicacionController,
+    required this.updatePressed,
+  }) : super(key: key);
 
   @override
-  State<ApplianceRegisterView> createState() => _ApplianceRegisterViewState();
+  _HVEditViewState createState() => _HVEditViewState();
 }
 
-class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController fabricanteController = TextEditingController();
-  final TextEditingController modeloController = TextEditingController();
-  final TextEditingController calificacionEnergeticaController = TextEditingController();
-  final TextEditingController condicionAmbController = TextEditingController();
-  final TextEditingController fechaCompraController = TextEditingController();
-  final TextEditingController fechaInstalacionController =
-      TextEditingController();
-  final TextEditingController fechaUltMantController = TextEditingController();
-  final TextEditingController tiempoUsoController = TextEditingController();
-  final TextEditingController frecuenciaUsoController = TextEditingController();
-  final TextEditingController ubicacionController = TextEditingController();
+class _HVEditViewState extends State<HVEditView> {
+  String? selectedValue;
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = widget.frecuenciaUsoController.text;
+  }
 
   List<String> items = ["Diario", "Semanal", "Mensual"];
-  String? selectedValue;
 
-  String applianceId = generateId();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(
-        title: const Text('Registrar electrodomestico'),
+        title: const Text('Editar hoja vida'),
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -47,7 +63,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
               child: ListView(children: [
                 const SizedBox(height: 5),
                 TextFormField(
-                  controller: nameController,
+                  controller: widget.nameController,
                   decoration: const InputDecoration(
                     labelText: 'Nombre del electrodomestico',
                     border: OutlineInputBorder(),
@@ -59,10 +75,11 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     }
                     return null;
                   },
+                  readOnly: true,
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: fabricanteController,
+                  controller: widget.fabricanteController,
                   decoration: const InputDecoration(
                     labelText: 'Fabricante',
                     border: OutlineInputBorder(),
@@ -74,10 +91,11 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     }
                     return null;
                   },
+                  readOnly: true,
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: modeloController,
+                  controller: widget.modeloController,
                   decoration: const InputDecoration(
                     labelText: 'Modelo',
                     border: OutlineInputBorder(),
@@ -89,11 +107,11 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     }
                     return null;
                   },
-                  readOnly: false,
+                  readOnly: true,
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: calificacionEnergeticaController,
+                  controller: widget.calificacionEnergeticaController,
                   decoration: const InputDecoration(
                     labelText: 'Calificacion energetica',
                     border: OutlineInputBorder(),
@@ -105,11 +123,11 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     }
                     return null;
                   },
-                  readOnly: false,
+                  readOnly: true,
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: condicionAmbController,
+                  controller: widget.condicionAmbController,
                   decoration: const InputDecoration(
                     labelText: 'Condicion ambiental',
                     border: OutlineInputBorder(),
@@ -125,7 +143,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: fechaCompraController,
+                  controller: widget.fechaCompraController,
                   decoration: const InputDecoration(
                     labelText: 'Fecha compra',
                     border: OutlineInputBorder(),
@@ -149,13 +167,13 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                       //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
-                      fechaCompraController.text = formattedDate;
+                      widget.fechaCompraController.text = formattedDate;
                     } else {}
                   },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: fechaInstalacionController,
+                  controller: widget.fechaInstalacionController,
                   decoration: const InputDecoration(
                     labelText: 'Fecha instalacion',
                     border: OutlineInputBorder(),
@@ -179,13 +197,13 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                       //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
-                      fechaInstalacionController.text = formattedDate;
+                      widget.fechaInstalacionController.text = formattedDate;
                     } else {}
                   },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: fechaUltMantController,
+                  controller: widget.fechaUltMantController,
                   decoration: const InputDecoration(
                     labelText: 'Fecha ultimo mantenimiento',
                     border: OutlineInputBorder(),
@@ -209,13 +227,13 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                       //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
-                      fechaUltMantController.text = formattedDate;
+                      widget.fechaUltMantController.text = formattedDate;
                     } else {}
                   },
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: tiempoUsoController,
+                  controller: widget.tiempoUsoController,
                   decoration: const InputDecoration(
                     labelText: 'Tiempo de uso',
                     border: OutlineInputBorder(),
@@ -235,8 +253,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   isExpanded: true,
                   hint: const Text(
                     'Seleccione la frecuencia de uso',
-                    style: TextStyle(
-                        fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   items: items
                       .map((String item) => DropdownMenuItem<String>(
@@ -250,6 +267,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   onChanged: (String? value) {
                     setState(() {
                       selectedValue = value;
+                      widget.frecuenciaUsoController.text = selectedValue as String;
                     });
                   },
                   buttonStyleData: const ButtonStyleData(
@@ -263,7 +281,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                 )),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: ubicacionController,
+                  controller: widget.ubicacionController,
                   decoration: const InputDecoration(
                     labelText: 'Ubicacion',
                     border: OutlineInputBorder(),
@@ -279,28 +297,9 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                 ),
               ]),
             ),
-            const SizedBox(height: 25.0),
             ElevatedButton(
-              onPressed: () {
-                registerAppliance(
-                    context,
-                    nameController.text,
-                    fabricanteController.text,
-                    modeloController.text,
-                    calificacionEnergeticaController.text,
-                    applianceId);
-                registerHojaVida(
-                    context,
-                    condicionAmbController.text,
-                    fechaCompraController.text,
-                    fechaInstalacionController.text,
-                    fechaUltMantController.text,
-                    tiempoUsoController.text,
-                    selectedValue as String,
-                    ubicacionController.text,
-                    applianceId);
-              },
-              child: const Text('Registrar'),
+              onPressed: widget.updatePressed,
+              child: const Text('Guardar cambios'),
             ),
           ]),
         ),

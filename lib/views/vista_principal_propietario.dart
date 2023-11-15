@@ -218,7 +218,7 @@ class _HomeViewUserState extends State<HomeViewUser> {
                         children: [
                           ListTile(
                             title: Text("Modelo: ${appliance.modelo}"),
-                            subtitle: Text("Tipo: ${appliance.tipo}"),
+                            subtitle: Text("Calificacion energetica: ${appliance.calificacionEnergetica}"),
                           ),
                         ],
                       );

@@ -9,8 +9,7 @@ import 'package:notify_home/views/propietario/vista_editar_electrodomestico.dart
 
 class ApplianceEditController extends StatefulWidget {
   final Electrodomestico appliance;
-  const ApplianceEditController(
-      {super.key, required this.appliance});
+  const ApplianceEditController({super.key, required this.appliance});
   @override
   _ProductEditControllerState createState() => _ProductEditControllerState();
 }
@@ -19,7 +18,8 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fabricanteController = TextEditingController();
   final TextEditingController modeloController = TextEditingController();
-  final TextEditingController tipoController = TextEditingController();
+  final TextEditingController calificacionEnergeticaController =
+      TextEditingController();
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
@@ -28,7 +28,8 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
     nameController.text = widget.appliance.name;
     fabricanteController.text = widget.appliance.fabricante;
     modeloController.text = widget.appliance.modelo;
-    tipoController.text = widget.appliance.tipo;
+    calificacionEnergeticaController.text =
+        widget.appliance.calificacionEnergetica;
   }
 
   void _update() async {
@@ -36,7 +37,7 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
       String name = nameController.text;
       String fabricante = fabricanteController.text;
       String modelo = modeloController.text;
-      String tipo = tipoController.text;
+      String calificacionEnergetica = calificacionEnergeticaController.text;
 
       //En caso de que un campo quede vacio no se actualiza
       name.isEmpty ? name = widget.appliance.name : name = nameController.text;
@@ -46,23 +47,26 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
       modelo.isEmpty
           ? modelo = widget.appliance.modelo.toString()
           : modelo = modeloController.text;
-      tipo.isEmpty
-          ? tipo = widget.appliance.tipo.toString()
-          : tipo = tipoController.text;
+      calificacionEnergetica.isEmpty
+          ? calificacionEnergetica =
+              widget.appliance.calificacionEnergetica.toString()
+          : calificacionEnergetica = calificacionEnergeticaController.text;
 
       Electrodomestico appliance = Electrodomestico(
         id: widget.appliance.id,
         name: name,
         fabricante: fabricante,
         modelo: modelo,
-        tipo: tipo,
-        user: uid, 
+        calificacionEnergetica: calificacionEnergetica,
+        user: uid,
         expertoId: '',
       );
 
       Navigator.pop(context);
       updateAppliance(appliance);
-      showPersonalizedAlert(context, 'Electrodomestico actualizado correctamente',
+      showPersonalizedAlert(
+          context,
+          'Electrodomestico actualizado correctamente',
           AlertMessageType.success);
     } catch (e) {
       showPersonalizedAlert(context, 'Error al actualizar el electrodomestico',
@@ -75,7 +79,7 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
     nameController.dispose();
     fabricanteController.dispose();
     modeloController.dispose();
-    tipoController.dispose();
+    calificacionEnergeticaController.dispose();
     super.dispose();
   }
 
@@ -85,7 +89,7 @@ class _ProductEditControllerState extends State<ApplianceEditController> {
       nameController: nameController,
       fabricanteController: fabricanteController,
       modeloController: modeloController,
-      tipoController: tipoController,
+      calificacionEnergeticaController: calificacionEnergeticaController,
       updatePressed: _update,
     );
   }

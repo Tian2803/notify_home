@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, use_key_in_widget_constructors, library_private_types_in_public_api, unused_element, avoid_print
+// ignore_for_file: use_build_context_synchronously, use_key_in_widget_constructors, library_private_types_in_public_api, unused_element, avoid_print, unrelated_type_equality_checks
 //FUNCIONA BIEN
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

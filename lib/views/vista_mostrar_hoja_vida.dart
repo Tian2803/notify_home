@@ -88,22 +88,6 @@ class HojaVidaShowView extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     const TextSpan(
-                      text: 'Fecha de mantenimiento manual: ',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    TextSpan(
-                      text: DateFormat('dd/MM/yyyy')
-                          .format(hojaVida.fechaMManual),
-                      style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
                       text: 'Fecha de ultimo mantenimiento: ',
                       style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                     ),

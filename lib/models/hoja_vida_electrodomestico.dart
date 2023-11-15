@@ -3,7 +3,6 @@ class HojaVidaElectrodomestico {
   final String condicionAmbiental;
   final DateTime fechaCompra;
   final DateTime fechaInstalacion;
-  final DateTime fechaMManual;
   final DateTime fechaUltMantenimiento;
   final int tiempoUso;
   final String frecuenciaUso;
@@ -15,7 +14,6 @@ class HojaVidaElectrodomestico {
     required this.condicionAmbiental,
     required this.fechaCompra,
     required this.fechaInstalacion,
-    required this.fechaMManual,
     required this.fechaUltMantenimiento,
     required this.tiempoUso,
     required this.frecuenciaUso,
@@ -29,7 +27,6 @@ class HojaVidaElectrodomestico {
       condicionAmbiental: json['condicionAmbiental'],
       fechaCompra: json['fechaCompra'],
       fechaInstalacion: json['fechaInstalacion'],
-      fechaMManual: json['fechaMManual'],
       fechaUltMantenimiento: json['fechaUltMantenimiento'],
       tiempoUso: json['tiempoUso'],
       frecuenciaUso: json['frecuenciaUso'],
@@ -43,7 +40,6 @@ class HojaVidaElectrodomestico {
         'condicionAmbiental': condicionAmbiental,
         'fechaCompra': fechaCompra.toIso8601String(),
         'fechaInstalacion': fechaInstalacion.toIso8601String(),
-        'fechaMManual': fechaMManual.toIso8601String(),
         'fechaUltMantenimiento': fechaUltMantenimiento.toIso8601String(),
         'tiempoUso': tiempoUso,
         'frecuenciaUso': frecuenciaUso,

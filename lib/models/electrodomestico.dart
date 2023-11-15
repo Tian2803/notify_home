@@ -3,7 +3,7 @@ class Electrodomestico {
   final String name;
   final String fabricante;
   final String modelo;
-  final String tipo;
+  final String calificacionEnergetica;
   final String expertoId;
   final String user;
 
@@ -12,7 +12,7 @@ class Electrodomestico {
     required this.name,
     required this.fabricante,
     required this.modelo,
-    required this.tipo,
+    required this.calificacionEnergetica,
     required this.expertoId,
     required this.user,
   });
@@ -23,7 +23,7 @@ class Electrodomestico {
       name: json['name'],
       fabricante: json['fabricante'],
       modelo: json['modelo'],
-      tipo: json['tipo'],
+      calificacionEnergetica: json['calificacionEnergetica'],
       expertoId: json['expertoId'],
       user: json['user'],
     );
@@ -34,7 +34,7 @@ class Electrodomestico {
         'name': name,
         'fabricante': fabricante,
         'modelo': modelo,
-        'tipo': tipo,
+        'calificacionEnergetica': calificacionEnergetica,
         'expertoId': expertoId,
         'user': user,
       };

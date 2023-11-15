@@ -6,14 +6,14 @@ class ApplianceEditView extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController fabricanteController;
   final TextEditingController modeloController;
-  final TextEditingController tipoController;
+  final TextEditingController calificacionEnergeticaController;
   final VoidCallback updatePressed;
 
   const ApplianceEditView({
     required this.nameController,
     required this.fabricanteController,
     required this.modeloController,
-    required this.tipoController,
+    required this.calificacionEnergeticaController,
     required this.updatePressed,
   });
 
@@ -78,7 +78,7 @@ class ApplianceEditView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
-                  controller: tipoController,
+                  controller: calificacionEnergeticaController,
                   decoration: const InputDecoration(
                     labelText: 'Tipo',
                     border: OutlineInputBorder(),
