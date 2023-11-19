@@ -92,16 +92,18 @@ class _CalendarNotifyState extends State<CalendarNotify> {
         )
         .get();
     for (var doc in snap.docs) {
-      final event = doc.data();
-      final day = DateTime.utc(
-        event.date.year,
-        event.date.month,
-        event.date.day,
-      );
-      if (_events[day] == null) {
-        _events[day] = [];
+      if (doc.data().userId == uid) {
+        final event = doc.data();
+        final day = DateTime.utc(
+          event.date.year,
+          event.date.month,
+          event.date.day,
+        );
+        if (_events[day] == null) {
+          _events[day] = [];
+        }
+        _events[day]!.add(event);
       }
-      _events[day]!.add(event);
     }
     setState(() {});
   }

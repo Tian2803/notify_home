@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.9"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -177,30 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.8.1"
-  firebase_messaging:
-    dependency: "direct main"
-    description:
-      name: firebase_messaging
-      sha256: "9922476db960b4044a6e65152f2695d9d6eaa6658db9aa9915c47bf38b572359"
-      url: "https://pub.dev"
-    source: hosted
-    version: "14.7.4"
-  firebase_messaging_platform_interface:
-    dependency: transitive
-    description:
-      name: firebase_messaging_platform_interface
-      sha256: "4d18606a988337911c2572afe1b946b5c7ad5a3444864b4468ed686ca9f5cd5a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.5.13"
-  firebase_messaging_web:
-    dependency: transitive
-    description:
-      name: firebase_messaging_web
-      sha256: "22a16175e204439156ba5f6396cd9ca4b74799744d7dbc8faa1d27efbaec7f1c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.5.13"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -344,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  notification_channel_manager:
+    dependency: "direct main"
+    description:
+      name: notification_channel_manager
+      sha256: c6a5600f25b3ac71bb491a75ab704ce45ecc122e7f1a32da367c0ca0c8eeb1f0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1+1"
   path:
     dependency: transitive
     description:
