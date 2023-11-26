@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:notify_home/controllers/controller_evento.dart';
 import 'package:notify_home/controllers/login_controller.dart';
+import 'package:notify_home/controllers/service_notification.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initNotifications();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await obtenerYMostrarNotificaciones();
   runApp(const MyApp());
 }
 

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/controlador_experto.dart';
+import 'package:notify_home/controllers/controller_evento.dart';
 import 'package:notify_home/views/control_acceso_autenticacion/login_view.dart';
 import 'package:notify_home/views/vista_principal_experto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,8 +63,8 @@ class _LoginControllerState extends State<LoginController> {
           AlertMessageType.error);
       return;
     }
-
     signInWithEmailAndPassword(email, password);
+    obtenerYMostrarNotificaciones();
   }
 
   @override

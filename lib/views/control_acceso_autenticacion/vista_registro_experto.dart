@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:notify_home/controllers/controlador_experto.dart';
 
 class RegisterExpertView extends StatefulWidget {
@@ -63,6 +64,9 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
                   labelText: 'Nombre',
                   border: OutlineInputBorder(),
                 ),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                ],
               ),
             ),
             SizedBox(height: 15, width: widthDevice),
@@ -71,10 +75,16 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
               child: TextField(
                 controller: telefonoController,
                 decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.phone),
-                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                    labelText: 'Telefono',
-                    border: OutlineInputBorder()),
+                  prefixIcon: Icon(Icons.phone),
+                  contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  labelText: 'Telefono',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.phone,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(10),
+                ],
               ),
             ),
             SizedBox(height: 15, width: widthDevice),
@@ -88,6 +98,7 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
                   labelText: 'Correo electrónico',
                   border: OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
             ),
             SizedBox(height: 15, width: widthDevice),

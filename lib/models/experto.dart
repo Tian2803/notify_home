@@ -5,12 +5,14 @@ class Experto {
   final String name;
   final String email;
   final String phone;
+  final String deviceId;
 
   Experto(
       {required this.id,
       required this.name,
       required this.email,
-      required this.phone});
+      required this.phone,
+      required this.deviceId});
 
   factory Experto.fromJson(Map<String, dynamic> json) {
     return Experto(
@@ -18,6 +20,7 @@ class Experto {
       name: json['name'],
       email: json['email'],
       phone: json['phone'],
+      deviceId: json['deviceId']
     );
   }
 
@@ -26,6 +29,7 @@ class Experto {
         'name': name,
         'email': email,
         'phone': phone,
+        'deviceId':deviceId
       };
 
   String getUserName() {

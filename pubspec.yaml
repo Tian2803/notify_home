@@ -30,6 +30,7 @@ environment:
 dependencies:
   cloud_firestore: ^4.9.1
   cupertino_icons: ^1.0.2
+  device_info: ^2.0.3
   dropdown_button2: ^2.3.9
   firebase_auth: ^4.9.0
   firebase_core: ^2.15.1
@@ -39,7 +40,7 @@ dependencies:
   flutter_phone_direct_caller: ^2.1.1
   fluttertoast: ^8.2.2
   intl: ^0.18.1
-  notification_channel_manager: ^0.1.1+1
+  #notification_channel_manager: ^0.1.1+1
   provider: ^6.0.5
   table_calendar: ^3.0.9
   uuid: ^4.0.0

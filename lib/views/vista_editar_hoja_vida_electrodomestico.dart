@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class HVEditView extends StatefulWidget {
@@ -46,7 +47,7 @@ class _HVEditViewState extends State<HVEditView> {
     selectedValue = widget.frecuenciaUsoController.text;
   }
 
-  List<String> items = ["Diario", "Semanal", "Mensual"];
+  List<String> items = ["Diario", "5 dias a la semana", "3 dias a la semana"];
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +70,9 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.tv),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese el nombre del electrodomestico';
@@ -85,9 +89,12 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.business),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese nombre fabricante';
+                      return 'Por favor ingrese el nombre del fabricante';
                     }
                     return null;
                   },
@@ -101,6 +108,9 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.unfold_more_double_sharp),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese el modelo del electrodomestico';
@@ -117,9 +127,12 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.energy_savings_leaf),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[A-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la  calificacion energetica de electrodomestico';
+                      return 'Por favor ingrese la calificacion energetica del electrodomestico';
                     }
                     return null;
                   },
@@ -133,6 +146,9 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.air_outlined),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la condicion ambiental';
@@ -149,12 +165,12 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
-                  /*validator: (value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la fecha de compra del electrodomestico';
                     }
                     return null;
-                  },*/
+                  },
                   readOnly: false,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -179,12 +195,12 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
-                  /*validator: (value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la fecha de instalacion del electrodomestico';
                     }
                     return null;
-                  },*/
+                  },
                   readOnly: false,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -209,12 +225,12 @@ class _HVEditViewState extends State<HVEditView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
-                  /*validator: (value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la fecha del del ultimo mantenimineto del electrodomestico';
                     }
                     return null;
-                  },*/
+                  },
                   readOnly: false,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
@@ -235,10 +251,16 @@ class _HVEditViewState extends State<HVEditView> {
                 TextFormField(
                   controller: widget.tiempoUsoController,
                   decoration: const InputDecoration(
-                    labelText: 'Tiempo de uso',
+                    labelText: 'Tiempo de uso en horas',
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.timer_outlined),
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    FilteringTextInputFormatter.singleLineFormatter,
+                    LengthLimitingTextInputFormatter(3), // Limit to 3 digits
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese el tiempo de uso del electrodomestico';
@@ -267,7 +289,8 @@ class _HVEditViewState extends State<HVEditView> {
                   onChanged: (String? value) {
                     setState(() {
                       selectedValue = value;
-                      widget.frecuenciaUsoController.text = selectedValue as String;
+                      widget.frecuenciaUsoController.text =
+                          selectedValue as String;
                     });
                   },
                   buttonStyleData: const ButtonStyleData(

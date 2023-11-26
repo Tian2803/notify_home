@@ -11,6 +11,7 @@ import 'package:notify_home/models/electrodomestico.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 import 'package:notify_home/views/vista_calendario.dart';
+import 'package:notify_home/views/vista_mostrar_hoja_vida.dart';
 
 class HomeViewExpert extends StatefulWidget {
   const HomeViewExpert({Key? key});
@@ -158,26 +159,27 @@ class _HomeViewExpertState extends State<HomeViewExpert> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              /*IconButton(
+                              IconButton(
                                 icon: const Icon(Icons.visibility_outlined),
                                 onPressed: () async {
                                   try {
                                     HojaVidaElectrodomestico hojaVid =
                                         await getHojaVidaDetails(
-                                            uid, appliance.id);
+                                            appliance.user, appliance.id);
                                     await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 HojaVidaShowView(
                                                     hojaVida: hojaVid)));
+                                                    
                                     setState(() {});
                                   } catch (e) {
                                     // Maneja la excepción, por ejemplo, mostrando un mensaje de error.
                                     print(
                                         'Error al obtener detalles de la hoja de vida: $e');
                                   }
-                                }),*/
+                                }),
                               IconButton(
                                 icon: const Icon(Icons.edit),
                                 onPressed: () async {

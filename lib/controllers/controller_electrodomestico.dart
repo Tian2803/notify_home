@@ -216,3 +216,22 @@ Future<String> getIdPropietario(String idExperto) async {
     throw Exception('No se pudo obtener el nombre del usuario.');
   }
 }
+
+Future<String> getElectrodomesticoId(String electrodomesticoNombre, String userId) async {
+  try {
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('electrodomestico')
+        .where('name', isEqualTo: electrodomesticoNombre)
+        .where('user', isEqualTo: userId)
+        .get();
+
+    final applianceId = querySnapshot.docs.first.id;
+    print(applianceId);
+    return applianceId;
+    // No se encontró el electrodoméstico con el nombre proporcionado
+  } catch (e) {
+    throw Exception(
+        'No se pudo obtener el identificador del electrodoméstico.');
+  }
+}
+

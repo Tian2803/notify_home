@@ -13,6 +13,7 @@ import 'package:notify_home/views/propietario/vista_registro_electrodomestico.da
 import 'package:notify_home/views/vista_calendario.dart';
 import 'package:notify_home/views/propietario/vista_contactar_experto_.dart';
 import 'package:notify_home/views/vista_mostrar_hoja_vida.dart';
+import 'package:notify_home/views/vista_predecir.dart';
 
 class HomeViewUser extends StatefulWidget {
   const HomeViewUser({Key? key});
@@ -120,6 +121,15 @@ class _HomeViewUserState extends State<HomeViewUser> {
                     MaterialPageRoute(
                         builder: (context) => const ContactarExperto()));
               }),
+          ListTile(
+              leading: const Icon(Icons.date_range_rounded),
+              title: const Text("Programar fecha mantenimiento"),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VistaPrediccion()));
+              }),
           Expanded(child: Container()),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
@@ -182,6 +192,7 @@ class _HomeViewUserState extends State<HomeViewUser> {
                                             builder: (context) =>
                                                 HojaVidaShowView(
                                                     hojaVida: hojaVid)));
+
                                     setState(() {});
                                   } catch (e) {
                                     // Maneja la excepción, por ejemplo, mostrando un mensaje de error.
@@ -218,7 +229,8 @@ class _HomeViewUserState extends State<HomeViewUser> {
                         children: [
                           ListTile(
                             title: Text("Modelo: ${appliance.modelo}"),
-                            subtitle: Text("Calificacion energetica: ${appliance.calificacionEnergetica}"),
+                            subtitle: Text(
+                                "Calificacion energetica: ${appliance.calificacionEnergetica}"),
                           ),
                         ],
                       );

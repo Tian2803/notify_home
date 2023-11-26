@@ -1,3 +1,8 @@
+// ignore_for_file: avoid_print
+
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -49,3 +54,20 @@ bool checkPasswordRequirements(String password) {
   RegExp regex = RegExp(passwordPattern);
   return regex.hasMatch(password);
 }
+
+Future<String> getDeviceId() async {
+  final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  try {
+    if (Platform.isIOS) {
+      final iosInfo = await deviceInfo.iosInfo;
+      return iosInfo.identifierForVendor;
+    } else {
+      final androidInfo = await deviceInfo.androidInfo;
+      return androidInfo.androidId;
+    }
+  } catch (e) {
+    print('Error obtaining device ID: $e');
+    return "";
+  }
+}
+

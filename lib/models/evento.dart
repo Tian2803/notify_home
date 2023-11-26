@@ -4,7 +4,7 @@ class Evento {
   final String id;
   final String titulo;
   final DateTime date;
-  final String electrodomestico;
+  final String electrodomesticoId;
   final int prioridad;
   final String userId;
 
@@ -13,7 +13,7 @@ class Evento {
       required this.titulo,
       required this.id,
       required this.date,
-      required this.electrodomestico,
+      required this.electrodomesticoId,
       required this.prioridad, 
       required this.userId});
 
@@ -22,7 +22,7 @@ class Evento {
         titulo: json['titulo'],
         id: json['id'],
         date: (json['date']  as Timestamp).toDate(),
-        electrodomestico: json['electrodomestico'],
+        electrodomesticoId: json['electrodomesticoId'],
         prioridad: json['prioridad'],
         userId: json['userId']);
   }
@@ -31,7 +31,7 @@ class Evento {
         'titulo': titulo,
         'id': id,
         'date': Timestamp.fromDate(date),
-        'electrodomestico': electrodomestico,
+        'electrodomesticoId': electrodomesticoId,
         'prioridad': prioridad,
         'userId': userId
       };

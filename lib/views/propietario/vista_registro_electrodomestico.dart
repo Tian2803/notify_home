@@ -2,9 +2,11 @@
 
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:notify_home/controllers/controller_electrodomestico.dart';
 import 'package:notify_home/controllers/controller_auxiliar.dart';
+import 'package:notify_home/controllers/controller_evento.dart';
 import 'package:notify_home/controllers/controller_hoja_vida_electrodomestico.dart';
 
 class ApplianceRegisterView extends StatefulWidget {
@@ -18,7 +20,8 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fabricanteController = TextEditingController();
   final TextEditingController modeloController = TextEditingController();
-  final TextEditingController calificacionEnergeticaController = TextEditingController();
+  final TextEditingController calificacionEnergeticaController =
+      TextEditingController();
   final TextEditingController condicionAmbController = TextEditingController();
   final TextEditingController fechaCompraController = TextEditingController();
   final TextEditingController fechaInstalacionController =
@@ -28,7 +31,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
   final TextEditingController frecuenciaUsoController = TextEditingController();
   final TextEditingController ubicacionController = TextEditingController();
 
-  List<String> items = ["Diario", "Semanal", "Mensual"];
+  List<String> items = ["Diario", "3 dias a la semana", "5 dias a la semana"];
   String? selectedValue;
 
   String applianceId = generateId();
@@ -53,6 +56,9 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.tv),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese el nombre del electrodomestico';
@@ -68,6 +74,9 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.business),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese nombre fabricante';
@@ -83,6 +92,9 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.unfold_more_double_sharp),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese el modelo del electrodomestico';
@@ -99,9 +111,12 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.energy_savings_leaf),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese la  calificacion energetica de electrodomestico';
+                      return 'Por favor ingrese la calificacion energetica de electrodomestico';
                     }
                     return null;
                   },
@@ -115,6 +130,9 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.air_outlined),
                   ),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la condicion ambiental';
@@ -131,19 +149,19 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
-                  /*validator: (value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la fecha de compra del electrodomestico';
                     }
                     return null;
-                  },*/
+                  },
                   readOnly: false,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2000),
-                        lastDate: DateTime(2101));
+                        lastDate: DateTime.now());
 
                     if (pickedDate != null) {
                       //pickedDate output format => 2021-03-10 00:00:00.000
@@ -161,19 +179,19 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
-                  /*validator: (value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la fecha de instalacion del electrodomestico';
                     }
                     return null;
-                  },*/
+                  },
                   readOnly: false,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2000),
-                        lastDate: DateTime(2101));
+                        lastDate: DateTime.now());
 
                     if (pickedDate != null) {
                       //pickedDate output format => 2021-03-10 00:00:00.000
@@ -191,19 +209,19 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
-                  /*validator: (value) {
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese la fecha del del ultimo mantenimineto del electrodomestico';
                     }
                     return null;
-                  },*/
+                  },
                   readOnly: false,
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2000),
-                        lastDate: DateTime(2101));
+                        lastDate: DateTime.now());
 
                     if (pickedDate != null) {
                       //pickedDate output format => 2021-03-10 00:00:00.000
@@ -221,6 +239,10 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.timer_outlined),
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor ingrese el tiempo de uso del electrodomestico';
@@ -235,8 +257,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   isExpanded: true,
                   hint: const Text(
                     'Seleccione la frecuencia de uso',
-                    style: TextStyle(
-                        fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   items: items
                       .map((String item) => DropdownMenuItem<String>(
@@ -282,6 +303,15 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
             const SizedBox(height: 25.0),
             ElevatedButton(
               onPressed: () {
+                int antiguedad = calcularAntiguedadEnAnios(
+                    fechaCompraController.text,
+                    fechaInstalacionController.text);
+                String prioridad = calcularPrioridadMantenimiento(
+                    antiguedad,
+                    fechaUltMantController.text,
+                    frecuenciaUsoController.text,
+                    int.parse(tiempoUsoController.text));
+
                 registerAppliance(
                     context,
                     nameController.text,
@@ -299,6 +329,13 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     selectedValue as String,
                     ubicacionController.text,
                     applianceId);
+
+                asignarFechaMantenimiento(
+                    context,
+                    prioridad,
+                    DateTime.parse(fechaUltMantController.text),
+                    "Fecha mantenimiento ${nameController.text}",
+                    nameController.text);
               },
               child: const Text('Registrar'),
             ),

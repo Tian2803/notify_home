@@ -1,5 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-//FUNCIONA BIEN
+// ignore_for_file: use_build_context_synchronously, avoid_print
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +56,7 @@ void registerPropietario(
           password: password,
         );
         String idUser = userCredential.user!.uid;
+        final deviceId = await getDeviceId();
 
         Propietario usuario = Propietario(
           id: idUser,
@@ -64,6 +64,7 @@ void registerPropietario(
           address: direccion,
           email: email,
           phone: telefono,
+          deviceId: deviceId
         );
 
         await FirebaseFirestore.instance
@@ -92,4 +93,22 @@ void registerPropietario(
           context, 'Error al registrar al usuario: $e', AlertMessageType.error);
     }
   }
+}
+
+Future<String?> getPropietarioId(String idDevice) async {
+  final collectionReference = FirebaseFirestore.instance.collection('usuarios');
+
+  try {
+    QuerySnapshot snapshot = await collectionReference.where('deviceId', isEqualTo: idDevice).get();
+
+    if (snapshot.docs.isNotEmpty) {
+      // El usuario con el ID de dispositivo proporcionado existe
+      final uid = snapshot.docs.first.id; // Suponiendo que hay solo un usuario con ese ID de dispositivo
+      print('UID del usuario: $uid');
+      return uid;
+    } 
+  } catch (error) {
+    print('Error al consultar la base de datos: $error');
+  }
+  return null;
 }

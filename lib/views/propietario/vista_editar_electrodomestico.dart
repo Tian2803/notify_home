@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ApplianceEditView extends StatelessWidget {
   final TextEditingController nameController;
@@ -44,6 +45,9 @@ class ApplianceEditView extends StatelessWidget {
                     }
                     return null;
                   },
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
@@ -59,6 +63,9 @@ class ApplianceEditView extends StatelessWidget {
                     }
                     return null;
                   },
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                 ),
                 const SizedBox(height: 16.0),
                 TextFormField(
@@ -74,6 +81,9 @@ class ApplianceEditView extends StatelessWidget {
                     }
                     return null;
                   },
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                  ],
                   readOnly: false,
                 ),
                 const SizedBox(height: 16.0),
@@ -86,10 +96,13 @@ class ApplianceEditView extends StatelessWidget {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese el tipo de electrodomestico';
+                      return 'Por favor ingrese la calificacion energetica';
                     }
                     return null;
                   },
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[A-Z]')),
+                  ],
                   readOnly: false,
                 ),
               ]),

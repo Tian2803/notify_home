@@ -24,12 +24,14 @@ void registerExperto(String experto, String telefono, String email,
           password: password,
         );
         String idUser = FirebaseAuth.instance.currentUser!.uid;
+        final deviceId = await getDeviceId();
 
         Experto expert = Experto(
           id: idUser,
           name: experto,
           email: email,
           phone: telefono,
+          deviceId: deviceId
         );
 
         await FirebaseFirestore.instance
@@ -109,6 +111,7 @@ Future<List<Experto>> getExpertoDetails() async {
         name: doc['name'],
         email: doc['email'],
         phone: doc['phone'],
+        deviceId: doc['deviceId']
       ));
     }
     // Devuelve la lista de electrodomésticos

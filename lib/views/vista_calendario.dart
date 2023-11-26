@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
@@ -31,8 +32,10 @@ class _CalendarNotifyState extends State<CalendarNotify> {
   late CalendarFormat _calendarFormat;
   late DateTime currentDay;
 
-  String? selectedAppliance;
+  String? selectedElectrodomestico;
+  String? selectedPrioridad;
   late List<String> items;
+  final List<String> prioridadOpciones = ['1', '2', '3'];
 
   late Map<DateTime, List<Evento>> _events;
 
@@ -41,7 +44,6 @@ class _CalendarNotifyState extends State<CalendarNotify> {
   }
 
   final TextEditingController nameEventoController = TextEditingController();
-  final TextEditingController prioridadController = TextEditingController();
   final TextEditingController fechaController = TextEditingController();
 
   @override
@@ -78,7 +80,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
 
   _loadFirestoreEvents() async {
     final firstDay = DateTime(_focusedDay.year, _focusedDay.month, 1);
-    final lastDay = DateTime(_focusedDay.year, _focusedDay.month + 1, 0);
+    final lastDay = DateTime(_focusedDay.year + 5, _focusedDay.month + 1, 0);
     _events = {};
 
     final snap = await FirebaseFirestore.instance
@@ -103,6 +105,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
           _events[day] = [];
         }
         _events[day]!.add(event);
+        print(_events.length);
       }
     }
     setState(() {});
@@ -211,7 +214,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                           TextButton(
                             onPressed: () async {
                               Navigator.pop(context, true);
-                              deleteEvento(event);
+                              eliminarEvento(event);
                               _loadFirestoreEvents();
                             },
                             style: TextButton.styleFrom(
@@ -244,16 +247,53 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextField(
+                        TextFormField(
                           controller: nameEventoController,
                           decoration: const InputDecoration(
                             hintText: 'Ingrese el nombre del evento',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor ingrese el nombre del evento';
+                            }
+                            return null;
+                          },
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp('[a-zA-Z]')),
+                          ],
                         ),
-                        TextField(
-                          controller: prioridadController,
-                          decoration: const InputDecoration(
-                            hintText: 'Ingrese la prioridad del evento',
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: const Text(
+                            'Seleccione la prioridad',
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                          items: prioridadOpciones
+                              .map((String item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: selectedPrioridad,
+                          onChanged: (String? value) {
+                            setState(() {
+                              selectedPrioridad = value;
+                            });
+                          },
+                          buttonStyleData: const ButtonStyleData(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            height: 40,
+                            width: 250,
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
                           ),
                         ),
                         const SizedBox(
@@ -276,10 +316,10 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                                       ),
                                     ))
                                 .toList(),
-                            value: selectedAppliance,
+                            value: selectedElectrodomestico,
                             onChanged: (String? value) {
                               setState(() {
-                                selectedAppliance = value;
+                                selectedElectrodomestico = value;
                               });
                             },
                             buttonStyleData: const ButtonStyleData(
@@ -324,7 +364,8 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
-                      selectedAppliance = null;
+                      selectedElectrodomestico = null;
+                      selectedPrioridad = null;
                       Navigator.of(context).pop(); // Cerrar el AlertDialog
                     },
                     child: const Text('Cerrar'),
@@ -332,21 +373,21 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                   if (items.isNotEmpty)
                     TextButton(
                       onPressed: () async {
-                        if (selectedAppliance != null) {
+                        if (selectedElectrodomestico != null && selectedPrioridad != null) {
                           registroEvento(
                             context,
                             nameEventoController.text,
-                            int.parse(prioridadController.text),
-                            selectedAppliance as String,
-                            fechaController.text,
+                            int.parse(selectedPrioridad as String),
+                            selectedElectrodomestico as String,
+                            DateTime.parse(fechaController.text),
                           );
 
-                          nameEventoController.clear;
-                          prioridadController.clear;
-                          selectedAppliance = null;
-                          fechaController.clear;
-
                           _loadFirestoreEvents();
+                          nameEventoController.clear();
+                          selectedPrioridad = null;
+                          fechaController.clear();
+                          selectedElectrodomestico = null;
+
                           // Cierra el cuadro de diálogo
                           showPersonalizedAlert(
                               context,

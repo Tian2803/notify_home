@@ -55,7 +55,7 @@ Future<HojaVidaElectrodomestico> getHojaVidaExpertoDetails(
       var doc =
           snapshot.docs.first; // Obtén el primer documento del QuerySnapshot
 
-print(doc.id);
+      print(doc.id);
       return HojaVidaElectrodomestico(
         id: doc.id,
         condicionAmbiental: doc['condicionAmbiental'],
@@ -84,9 +84,12 @@ void updateHJAppliance(HojaVidaElectrodomestico hve) {
       .doc(hve.id);
 
   // Convierte los objetos DateTime a Strings en el formato deseado
-  String fechaCompraString = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaCompra);
-  String fechaInstalacionString = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaInstalacion);
-  String fechaUltMantString = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaUltMantenimiento);
+  String fechaCompraString =
+      DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaCompra);
+  String fechaInstalacionString =
+      DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaInstalacion);
+  String fechaUltMantString =
+      DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaUltMantenimiento);
 
   // Actualiza los campos del producto en Firestore
   applianceRef.update({
@@ -95,7 +98,8 @@ void updateHJAppliance(HojaVidaElectrodomestico hve) {
     'fechaInstalacion': fechaInstalacionString,
     'fechaUltMantenimiento': fechaUltMantString,
     'tiempoUso': hve.tiempoUso,
-    'frecuenciaUso': hve.frecuenciaUso, // Nota: ¿Es esto intencional? ¿Debería ser 'hve.frecuenciaUso'?
+    'frecuenciaUso': hve
+        .frecuenciaUso, // Nota: ¿Es esto intencional? ¿Debería ser 'hve.frecuenciaUso'?
     'ubicacion': hve.ubicacion,
   }).then((_) {
     print('Electrodomestico actualizado correctamente');
@@ -161,4 +165,73 @@ void registerHojaVida(
     showPersonalizedAlert(context, 'Error al registrar el electrodomestico',
         AlertMessageType.error);
   }
+}
+
+Future<List<HojaVidaElectrodomestico>> getHVDetails(String uid) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  try {
+    // Realiza la consulta a Firebase Firestore
+    QuerySnapshot snapshot = await firestore
+        .collection('hojaVidaElectrodomestico')
+        .where('user', isEqualTo: uid)
+        .get();
+
+    // Inicializa una lista para almacenar los electrodomésticos
+    List<HojaVidaElectrodomestico> hojaVida = [];
+    // Recorre los documentos y crea instancias de la clase Appliance
+    for (var doc in snapshot.docs) {
+      hojaVida.add(HojaVidaElectrodomestico(
+        id: doc.id,
+        condicionAmbiental: doc['condicionAmbiental'],
+        fechaCompra: DateTime.parse(doc['fechaCompra']),
+        fechaInstalacion: DateTime.parse(doc['fechaInstalacion']),
+        fechaUltMantenimiento: DateTime.parse(doc['fechaUltMantenimiento']),
+        tiempoUso: doc['tiempoUso'],
+        frecuenciaUso: doc['frecuenciaUso'],
+        ubicacion: doc['ubicacion'],
+        user: doc['user'],
+      ));
+    }
+    // Devuelve la lista de electrodomésticos
+    return hojaVida;
+  } catch (e) {
+    // Maneja errores de forma adecuada
+    print(
+        'Error, no se logro obtener la información de los electrodomésticos: $e');
+    throw Exception(
+        'No se pudo obtener la información de los electrodomésticos.');
+  }
+}
+
+String calcularPrioridadMantenimiento(int antiguedad,
+    String fechaUltimoMantenimiento, String frecuenciaUso, int tiempoUso) {
+      DateTime fechaUltMant = DateTime.parse(fechaUltimoMantenimiento);
+  final tiempoDesdeUltimoMantenimiento =
+      DateTime.now().difference(fechaUltMant).inDays / 365;
+
+  if (antiguedad > 2.5 ||
+      tiempoDesdeUltimoMantenimiento > 1.5 ||
+      (['Diario', '5 días a la semana', '3 días a la semana']
+              .contains(frecuenciaUso) &&
+          tiempoUso > 12)) {
+    return 'Alta';
+  } else if ((antiguedad > 1.5 && antiguedad <= 2.5) ||
+      (tiempoDesdeUltimoMantenimiento > 0.75 &&
+          tiempoDesdeUltimoMantenimiento <= 1.5) ||
+      (tiempoUso > 8 && tiempoUso <= 12)) {
+    return 'Moderada';
+  } else {
+    return 'Baja';
+  }
+}
+
+//Calcula la antiguedad
+int calcularAntiguedadEnAnios(String fechaCompraStr, String fechaInstalacionStr) {
+  // Parsear las fechas desde las cadenas
+  DateTime fechaCompra = DateTime.parse(fechaCompraStr);
+  DateTime fechaInstalacion = DateTime.parse(fechaInstalacionStr);
+
+  // Calcular la antigüedad en años
+  return fechaCompra.difference(fechaInstalacion).inDays ~/ 365;
 }
