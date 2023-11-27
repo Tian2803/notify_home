@@ -17,7 +17,7 @@ Future<String?> getNombrePropietario() async {
     final uid = user.uid;
 
     final userDoc =
-        await FirebaseFirestore.instance.collection('usuarios').doc(uid).get();
+        await FirebaseFirestore.instance.collection('propietario').doc(uid).get();
 
     if (userDoc.exists) {
       final userName = userDoc.data()?['name'];
@@ -78,7 +78,7 @@ void registrarPropietario(
 
         // Almacenamiento del objeto Propietario en Firestore
         await FirebaseFirestore.instance
-            .collection('usuarios')
+            .collection('propietario')
             .doc(idUser)
             .set(usuario.toJson());
 
@@ -131,7 +131,7 @@ void registrarPropietario(
 
 // Función asincrónica para obtener el ID del propietario a partir del ID de dispositivo
 Future<String?> getPropietarioId(String idDevice) async {
-  final collectionReference = FirebaseFirestore.instance.collection('usuarios');
+  final collectionReference = FirebaseFirestore.instance.collection('propietario');
   try {
     QuerySnapshot snapshot =
         await collectionReference.where('deviceId', isEqualTo: idDevice).get();
