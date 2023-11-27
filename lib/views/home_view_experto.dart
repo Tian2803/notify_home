@@ -1,28 +1,25 @@
 // ignore_for_file: use_build_context_synchronously, use_key_in_widget_constructors, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controller_electrodomestico.dart';
-import 'package:notify_home/controllers/controller_edit_electrodomestico.dart';
-import 'package:notify_home/controllers/controller_hoja_vida_electrodomestico.dart';
+import 'package:notify_home/controllers/hoja_vida_edit_controller.dart';
+import 'package:notify_home/controllers/electrodomestico_controller.dart';
+import 'package:notify_home/controllers/experto_controller.dart';
+import 'package:notify_home/controllers/hoja_vida_controller.dart';
 import 'package:notify_home/controllers/login_controller.dart';
-import 'package:notify_home/controllers/controller_propietario.dart';
 import 'package:notify_home/models/electrodomestico.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
-import 'package:notify_home/views/propietario/vista_registro_electrodomestico.dart';
 import 'package:notify_home/views/vista_calendario.dart';
-import 'package:notify_home/views/propietario/vista_contactar_experto_.dart';
 import 'package:notify_home/views/vista_mostrar_hoja_vida.dart';
-import 'package:notify_home/views/vista_predecir.dart';
 
-class HomeViewUser extends StatefulWidget {
-  const HomeViewUser({Key? key});
+class HomeViewExpert extends StatefulWidget {
+  const HomeViewExpert({Key? key});
 
   @override
-  State<HomeViewUser> createState() => _HomeViewUserState();
+  State<HomeViewExpert> createState() => _HomeViewExpertState();
 }
 
-class _HomeViewUserState extends State<HomeViewUser> {
+class _HomeViewExpertState extends State<HomeViewExpert> {
   // ID del usuario actual.
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
@@ -34,8 +31,8 @@ class _HomeViewUserState extends State<HomeViewUser> {
     _scaffoldKey.currentState!.openDrawer();
   }
 
-  // Obtener el nombre del propietario.
-  Future<String?> nameUser = getNombrePropietario();
+  // Obtener el nombre del usuario.
+  Future<String?> nameUser = getNombreUsuarioExperto();
 
   // Datos del usuario actual.
   final email = FirebaseAuth.instance.currentUser!.email;
@@ -80,7 +77,7 @@ class _HomeViewUserState extends State<HomeViewUser> {
             // Encabezado del Drawer con información del usuario.
             UserAccountsDrawerHeader(
               accountName: FutureBuilder<String?>(
-                future: getNombrePropietario(),
+                future: getNombreUsuarioExperto(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
@@ -148,32 +145,6 @@ class _HomeViewUserState extends State<HomeViewUser> {
                 );
               },
             ),
-            // Opción de contactar a un experto.
-            ListTile(
-              leading: const Icon(Icons.person_search_rounded),
-              title: const Text("Contactar experto"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ContactarExperto(),
-                  ),
-                );
-              },
-            ),
-            // Opción para programar mantenimiento.
-            ListTile(
-              leading: const Icon(Icons.date_range_rounded),
-              title: const Text("Programar mantenimiento"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const VistaPrediccion(),
-                  ),
-                );
-              },
-            ),
             // Espacio expansivo para estirar los elementos al final.
             Expanded(child: Container()),
             // Opción para cerrar sesión.
@@ -199,16 +170,15 @@ class _HomeViewUserState extends State<HomeViewUser> {
             _openDrawer();
           },
         ),
-        title: const Text("Mis Equipos"),
+        title: const Text('Equipos asignados'),
       ),
       body: ListView(
         children: [
-          // Listar electrodomésticos del propietario.
+          // Listar electrodomésticos asignados al experto.
           FutureBuilder<List<Electrodomestico>>(
-            future: getElectrodomesticoDetalle(uid),
+            future: getElectrodomesticoDetalleExperto(uid),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                // Muestra un indicador de carga si los datos aún no están disponibles.
                 return Center(
                   child: Transform.scale(
                     scale: 0.7,
@@ -216,32 +186,28 @@ class _HomeViewUserState extends State<HomeViewUser> {
                   ),
                 );
               } else if (snapshot.hasError) {
-                // Muestra un mensaje de error si hay un problema al obtener los datos.
                 return Text('Error: ${snapshot.error}');
               } else {
-                // Si se obtienen datos, mostrar la lista de electrodomésticos.
                 final appliances = snapshot.data;
                 if (appliances != null && appliances.isNotEmpty) {
                   return Column(
                     children: appliances.map((appliance) {
-                      // Expansión de cada electrodoméstico.
+                      // ExpansionTile para cada electrodoméstico.
                       return ExpansionTile(
                         leading: const Icon(Icons.devices),
-                        title:
-                            Text("${appliance.name} ${appliance.fabricante}"),
-                        subtitle: Text("Experto: ${appliance.expertoId}"),
+                        title: Text(appliance.name),
+                        subtitle: Text(appliance.fabricante),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // Botón para ver la hoja de vida del electrodoméstico.
+                            // Botón para ver detalles de la hoja de vida.
                             IconButton(
                               icon: const Icon(Icons.visibility_outlined),
                               onPressed: () async {
                                 try {
-                                  // Obtener y mostrar la hoja de vida del electrodoméstico.
                                   HojaVidaElectrodomestico hojaVid =
                                       await getHojaVidaElectrodomesticoDetalle(
-                                          uid, appliance.id);
+                                          appliance.user, appliance.id);
                                   await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -253,39 +219,40 @@ class _HomeViewUserState extends State<HomeViewUser> {
 
                                   setState(() {});
                                 } catch (e) {
-                                  // Manejar la excepción, por ejemplo, mostrar un mensaje de error.
+                                  // Maneja la excepción, por ejemplo, mostrando un mensaje de error.
                                   print(
                                     'Error al obtener detalles de la hoja de vida: $e',
                                   );
                                 }
                               },
                             ),
-                            // Botón para editar el electrodoméstico.
+                            // Botón para editar la hoja de vida.
                             IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ApplianceEditController(
-                                      electrodomestico: appliance,
+                                try {
+                                  String id = await getIdPropietario(uid);
+                                  print("User id: $id");
+
+                                  HojaVidaElectrodomestico hojaVid =
+                                      await getHojaVidaElectrodomesticoExpertoDetalle(
+                                          id, appliance.id);
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HVEditController(
+                                        appliance: appliance,
+                                        hve: hojaVid,
+                                      ),
                                     ),
-                                  ),
-                                );
-                                setState(() {});
-                              },
-                            ),
-                            // Botón para eliminar el electrodoméstico y su hoja de vida asociada.
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () async {
-                                HojaVidaElectrodomestico hojaVida =
-                                    await getHojaVidaElectrodomesticoDetalle(
-                                        uid, appliance.id);
-                                eliminarElectrodomestico(appliance);
-                                eliminarHojaVidaElectrodomestico(hojaVida);
-                                setState(() {});
+                                  );
+                                  setState(() {});
+                                } catch (e) {
+                                  // Maneja la excepción, por ejemplo, mostrando un mensaje de error.
+                                  print(
+                                    'Error al obtener detalles de la hoja de vida: $e',
+                                  );
+                                }
                               },
                             ),
                           ],
@@ -294,14 +261,14 @@ class _HomeViewUserState extends State<HomeViewUser> {
                           ListTile(
                             title: Text("Modelo: ${appliance.modelo}"),
                             subtitle: Text(
-                                "Calificacion energetica: ${appliance.calificacionEnergetica}"),
+                              "Calificacion energetica: ${appliance.calificacionEnergetica}",
+                            ),
                           ),
                         ],
                       );
                     }).toList(),
                   );
                 } else {
-                  // Mensaje si no se encuentran electrodomésticos.
                   return const Text('No se encontraron electrodomésticos.');
                 }
               }
@@ -309,22 +276,6 @@ class _HomeViewUserState extends State<HomeViewUser> {
           ),
         ],
       ),
-      // Botón flotante para agregar un nuevo electrodoméstico.
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Navegar a la vista de registro de electrodomésticos.
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ApplianceRegisterView(),
-            ),
-          );
-          setState(() {});
-        },
-        child: const Icon(Icons.add),
-      ),
-      // Posición del botón flotante.
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

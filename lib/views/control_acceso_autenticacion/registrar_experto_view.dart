@@ -1,19 +1,20 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:notify_home/controllers/controller_auxiliar.dart';
-import 'package:notify_home/controllers/controller_propietario.dart';
+import 'package:notify_home/controllers/experto_controller.dart';
+import 'package:notify_home/controllers/auxiliar_controller.dart';
 
-class RegisterUserView extends StatefulWidget {
-  const RegisterUserView({super.key});
+class RegisterExpertView extends StatefulWidget {
+  const RegisterExpertView({super.key});
 
   @override
-  State<RegisterUserView> createState() => _RegisterUserViewState();
+  State<RegisterExpertView> createState() => _RegisterExpertViewState();
 }
 
-class _RegisterUserViewState extends State<RegisterUserView> {
+class _RegisterExpertViewState extends State<RegisterExpertView> {
   // Controladores para los campos de texto
   final TextEditingController nombreController = TextEditingController();
-  final TextEditingController direccionController = TextEditingController();
   final TextEditingController telefonoController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -72,7 +73,7 @@ class _RegisterUserViewState extends State<RegisterUserView> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(
-        title: const Text('Registro de usuario'),
+        title: const Text('Registro de experto'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -98,20 +99,6 @@ class _RegisterUserViewState extends State<RegisterUserView> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp(r'[ a-zA-Z]')),
                 ],
-              ),
-            ),
-            SizedBox(height: 15, width: widthDevice),
-            // Campo de texto para la dirección
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.91,
-              child: TextField(
-                controller: direccionController,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.home_work),
-                  contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  labelText: 'Direccion',
-                  border: OutlineInputBorder(),
-                ),
               ),
             ),
             SizedBox(height: 15, width: widthDevice),
@@ -193,11 +180,10 @@ class _RegisterUserViewState extends State<RegisterUserView> {
                     controller: passwordController,
                     onChanged: _validatePassword,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.vpn_key),
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      labelText: 'Contraseña',
-                      border: OutlineInputBorder(),
-                    ),
+                        prefixIcon: Icon(Icons.vpn_key),
+                        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        labelText: 'Contraseña',
+                        border: OutlineInputBorder()),
                     obscureText: true,
                   ),
                   if (!isPasswordValid)
@@ -223,11 +209,10 @@ class _RegisterUserViewState extends State<RegisterUserView> {
                     controller: passwordConfController,
                     onChanged: _validatePassword2,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.vpn_key),
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      labelText: 'Confirmar contraseña',
-                      border: OutlineInputBorder(),
-                    ),
+                        prefixIcon: Icon(Icons.vpn_key),
+                        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        labelText: 'Confirmar contraseña',
+                        border: OutlineInputBorder()),
                     obscureText: true,
                   ),
                   if (!isconfirmPasswordValid)
@@ -246,14 +231,14 @@ class _RegisterUserViewState extends State<RegisterUserView> {
             // Botón de registro
             ElevatedButton(
               onPressed: () {
-                registrarPropietario(
-                    context,
-                    nombreController.text,
-                    direccionController.text,
-                    telefonoController.text,
-                    emailController.text,
-                    passwordController.text,
-                    passwordConfController.text);
+                registrarExperto(
+                  nombreController.text,
+                  telefonoController.text,
+                  emailController.text,
+                  passwordController.text,
+                  passwordConfController.text,
+                  context,
+                );
               },
               child: const Text('Registrarse'),
             ),

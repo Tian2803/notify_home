@@ -1,20 +1,19 @@
-// ignore_for_file: unused_element
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:notify_home/controllers/controlador_experto.dart';
-import 'package:notify_home/controllers/controller_auxiliar.dart';
+import 'package:notify_home/controllers/auxiliar_controller.dart';
+import 'package:notify_home/controllers/propietario_controller.dart';
 
-class RegisterExpertView extends StatefulWidget {
-  const RegisterExpertView({super.key});
+class RegisterUserView extends StatefulWidget {
+  const RegisterUserView({super.key});
 
   @override
-  State<RegisterExpertView> createState() => _RegisterExpertViewState();
+  State<RegisterUserView> createState() => _RegisterUserViewState();
 }
 
-class _RegisterExpertViewState extends State<RegisterExpertView> {
+class _RegisterUserViewState extends State<RegisterUserView> {
   // Controladores para los campos de texto
   final TextEditingController nombreController = TextEditingController();
+  final TextEditingController direccionController = TextEditingController();
   final TextEditingController telefonoController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -73,7 +72,7 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(
-        title: const Text('Registro de experto'),
+        title: const Text('Registro de usuario'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -99,6 +98,20 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp(r'[ a-zA-Z]')),
                 ],
+              ),
+            ),
+            SizedBox(height: 15, width: widthDevice),
+            // Campo de texto para la dirección
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.91,
+              child: TextField(
+                controller: direccionController,
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.home_work),
+                  contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                  labelText: 'Direccion',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
             SizedBox(height: 15, width: widthDevice),
@@ -180,10 +193,11 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
                     controller: passwordController,
                     onChanged: _validatePassword,
                     decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.vpn_key),
-                        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        labelText: 'Contraseña',
-                        border: OutlineInputBorder()),
+                      prefixIcon: Icon(Icons.vpn_key),
+                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      labelText: 'Contraseña',
+                      border: OutlineInputBorder(),
+                    ),
                     obscureText: true,
                   ),
                   if (!isPasswordValid)
@@ -209,10 +223,11 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
                     controller: passwordConfController,
                     onChanged: _validatePassword2,
                     decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.vpn_key),
-                        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                        labelText: 'Confirmar contraseña',
-                        border: OutlineInputBorder()),
+                      prefixIcon: Icon(Icons.vpn_key),
+                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      labelText: 'Confirmar contraseña',
+                      border: OutlineInputBorder(),
+                    ),
                     obscureText: true,
                   ),
                   if (!isconfirmPasswordValid)
@@ -231,14 +246,14 @@ class _RegisterExpertViewState extends State<RegisterExpertView> {
             // Botón de registro
             ElevatedButton(
               onPressed: () {
-                registrarExperto(
-                  nombreController.text,
-                  telefonoController.text,
-                  emailController.text,
-                  passwordController.text,
-                  passwordConfController.text,
-                  context,
-                );
+                registrarPropietario(
+                    context,
+                    nombreController.text,
+                    direccionController.text,
+                    telefonoController.text,
+                    emailController.text,
+                    passwordController.text,
+                    passwordConfController.text);
               },
               child: const Text('Registrarse'),
             ),

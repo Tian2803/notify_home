@@ -2,8 +2,8 @@
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 // Importación de paquetes y archivos necesarios
 import 'package:flutter/material.dart';
-import 'package:notify_home/controllers/controlador_experto.dart';
-import 'package:notify_home/controllers/controller_evento.dart';
+import 'package:notify_home/controllers/experto_controller.dart';
+import 'package:notify_home/controllers/evento_controller.dart';
 import 'package:notify_home/views/control_acceso_autenticacion/login_view.dart';
 import 'package:notify_home/views/vista_principal_experto.dart';
 import 'package:notify_home/views/vista_principal_propietario.dart';

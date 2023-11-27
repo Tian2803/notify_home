@@ -6,8 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/controller_auxiliar.dart';
-import 'package:notify_home/controllers/controller_propietario.dart';
+import 'package:notify_home/controllers/auxiliar_controller.dart';
+import 'package:notify_home/controllers/propietario_controller.dart';
 import 'package:notify_home/controllers/service_notification.dart';
 import 'package:notify_home/models/evento.dart';
 

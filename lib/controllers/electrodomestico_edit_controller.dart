@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/controller_electrodomestico.dart';
+import 'package:notify_home/controllers/electrodomestico_controller.dart';
 import 'package:notify_home/models/electrodomestico.dart';
 import 'package:notify_home/views/propietario/vista_editar_electrodomestico.dart';
 

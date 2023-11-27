@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/controller_electrodomestico.dart';
-import 'package:notify_home/controllers/controlador_experto.dart';
+import 'package:notify_home/controllers/electrodomestico_controller.dart';
+import 'package:notify_home/controllers/experto_controller.dart';
 import 'package:notify_home/models/experto.dart';
 
 class ContactarExperto extends StatefulWidget {

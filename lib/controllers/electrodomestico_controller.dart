@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/controlador_experto.dart';
+import 'package:notify_home/controllers/experto_controller.dart';
 import 'package:notify_home/models/electrodomestico.dart';
 
 Future<List<Electrodomestico>> getElectrodomesticoDetalle(String applianceId) async {

@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:notify_home/controllers/controller_auxiliar.dart';
+import 'package:notify_home/controllers/auxiliar_controller.dart';
 import 'package:notify_home/controllers/login_controller.dart';
 import 'package:notify_home/models/experto.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';

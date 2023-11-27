@@ -10,9 +10,9 @@ import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
-import 'package:notify_home/controllers/controlador_experto.dart';
-import 'package:notify_home/controllers/controller_electrodomestico.dart';
-import 'package:notify_home/controllers/controller_evento.dart';
+import 'package:notify_home/controllers/experto_controller.dart';
+import 'package:notify_home/controllers/electrodomestico_controller.dart';
+import 'package:notify_home/controllers/evento_controller.dart';
 import 'package:notify_home/models/evento.dart';
 import 'package:table_calendar/table_calendar.dart';
 
