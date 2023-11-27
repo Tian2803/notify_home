@@ -1,5 +1,4 @@
-// company.dart
-
+// Clase para representar a un propietario
 class Propietario {
   final String id;
   final String name;
@@ -8,15 +7,17 @@ class Propietario {
   final String phone;
   final String deviceId;
 
+  // Constructor para inicializar un objeto Propietario
   Propietario({
     required this.id,
     required this.name,
-    required this.address, 
-    required this.email, 
+    required this.address,
+    required this.email,
     required this.phone,
-    required this.deviceId
+    required this.deviceId,
   });
 
+  // Constructor de fábrica para crear un objeto Propietario desde un mapa JSON
   factory Propietario.fromJson(Map<String, dynamic> json) {
     return Propietario(
       id: json['id'],
@@ -24,20 +25,18 @@ class Propietario {
       address: json['address'],
       email: json['email'],
       phone: json['phone'],
-      deviceId: json['deviceId']
+      deviceId: json['deviceId'],
     );
   }
 
+  // Método para convertir un objeto Propietario a un mapa JSON
   Map<String, dynamic> toJson() => {
         'id': id,
         'address': address,
         'name': name,
         'email': email,
         'phone': phone,
-        'deviceId':deviceId
+        'deviceId': deviceId,
       };
 
-  String getUserName() {
-    return name;
-  }
 }

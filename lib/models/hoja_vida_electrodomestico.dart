@@ -1,3 +1,4 @@
+// Clase para representar la hoja de vida de un electrodoméstico
 class HojaVidaElectrodomestico {
   final String id;
   final String condicionAmbiental;
@@ -9,6 +10,7 @@ class HojaVidaElectrodomestico {
   final String ubicacion;
   final String user;
 
+  // Constructor para inicializar un objeto HojaVidaElectrodomestico
   HojaVidaElectrodomestico({
     required this.id,
     required this.condicionAmbiental,
@@ -21,13 +23,14 @@ class HojaVidaElectrodomestico {
     required this.user,
   });
 
+  // Constructor de fábrica para crear un objeto HojaVidaElectrodomestico desde un mapa JSON
   factory HojaVidaElectrodomestico.fromJson(Map<String, dynamic> json) {
     return HojaVidaElectrodomestico(
       id: json['id'],
       condicionAmbiental: json['condicionAmbiental'],
-      fechaCompra: json['fechaCompra'],
-      fechaInstalacion: json['fechaInstalacion'],
-      fechaUltMantenimiento: json['fechaUltMantenimiento'],
+      fechaCompra: DateTime.parse(json['fechaCompra']),
+      fechaInstalacion: DateTime.parse(json['fechaInstalacion']),
+      fechaUltMantenimiento: DateTime.parse(json['fechaUltMantenimiento']),
       tiempoUso: json['tiempoUso'],
       frecuenciaUso: json['frecuenciaUso'],
       ubicacion: json['ubicacion'],
@@ -35,6 +38,7 @@ class HojaVidaElectrodomestico {
     );
   }
 
+  // Método para convertir un objeto HojaVidaElectrodomestico a un mapa JSON
   Map<String, dynamic> toJson() => {
         'id': id,
         'condicionAmbiental': condicionAmbiental,

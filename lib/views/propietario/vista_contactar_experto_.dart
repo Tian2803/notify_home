@@ -17,11 +17,13 @@ class ContactarExperto extends StatefulWidget {
 }
 
 class _ContactarExpertoState extends State<ContactarExperto> {
+  // Icono y widget de búsqueda
   Icon iconSearch = const Icon(Icons.search);
   Widget cusSearch = const Text("Expertos");
   final TextEditingController _searchController = TextEditingController();
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
+  // Variables para el manejo de electrodomésticos y expertos
   String? selectedAppliance;
   late List<String> items;
   late String expertId;
@@ -33,10 +35,11 @@ class _ContactarExpertoState extends State<ContactarExperto> {
     _loadAppliances();
   }
 
+  // Carga los electrodomésticos del usuario actual
   Future<void> _loadAppliances() async {
     try {
       List<String> appliances =
-          (await getApplianceWithInfo(uid)).cast<String>();
+          (await getElectrodomesticoNombre(uid)).cast<String>();
       setState(() {
         items = appliances;
       });
@@ -47,11 +50,13 @@ class _ContactarExpertoState extends State<ContactarExperto> {
 
   @override
   Widget build(BuildContext context) {
+    // Estructura del widget de la pantalla de contacto con expertos
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: cusSearch,
         actions: <Widget>[
+          // Botón de búsqueda en la barra de aplicación
           IconButton(
             icon: iconSearch,
             onPressed: () {
@@ -91,7 +96,7 @@ class _ContactarExpertoState extends State<ContactarExperto> {
         ],
       ),
       body: FutureBuilder(
-        future: getExpertoDetails(),
+        future: getExpertoDetalle(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -108,8 +113,9 @@ class _ContactarExpertoState extends State<ContactarExperto> {
               // Filtrar expertos basados en el texto de búsqueda
               String searchTerm = _searchController.text.toLowerCase();
               List<Experto> expertosFiltrados =
-                  filterExpertos(expertos, searchTerm);
+                  filtrarExpertos(expertos, searchTerm);
 
+              // Lista de expertos con posibilidad de búsqueda y asignación de electrodomésticos
               return ListView(
                 children: expertosFiltrados.map((expert) {
                   return ExpansionTile(
@@ -120,6 +126,7 @@ class _ContactarExpertoState extends State<ContactarExperto> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        // Botón para asignar electrodoméstico
                         IconButton(
                           icon: const Icon(Icons.devices),
                           onPressed: () {
@@ -132,6 +139,7 @@ class _ContactarExpertoState extends State<ContactarExperto> {
                             );
                           },
                         ),
+                        // Botón para llamar al experto
                         IconButton(
                           icon: const Icon(Icons.call),
                           onPressed: () async {
@@ -153,14 +161,16 @@ class _ContactarExpertoState extends State<ContactarExperto> {
     );
   }
 
+  // Construye el diálogo para asignar electrodoméstico a experto
   Widget _buildAssignApplianceDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Electrodoméstico'),
+      title: const Text('Asignar experto'),
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // Dropdown para seleccionar electrodoméstico
               if (items.isNotEmpty)
                 DropdownButton2<String>(
                   isExpanded: true,
@@ -200,6 +210,7 @@ class _ContactarExpertoState extends State<ContactarExperto> {
         },
       ),
       actions: <Widget>[
+        // Botón para cerrar el diálogo
         TextButton(
           onPressed: () {
             selectedAppliance = null;
@@ -207,13 +218,14 @@ class _ContactarExpertoState extends State<ContactarExperto> {
           },
           child: const Text('Cerrar'),
         ),
+        // Botón para asignar electrodoméstico al experto
         if (items.isNotEmpty)
           TextButton(
             onPressed: () async {
               if (selectedAppliance != null) {
                 try {
                   String applianceId =
-                      await getApplianceId(selectedAppliance!, uid);
+                      await getElectrodomesticoId(selectedAppliance!, uid);
                   // Realiza la asignación del electrodoméstico al experto aquí
                   asignarExperto(applianceId, expertId);
                   selectedAppliance = null;

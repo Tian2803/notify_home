@@ -4,16 +4,7 @@ import 'package:notify_home/views/control_acceso_autenticacion/vista_registro_ex
 import 'package:notify_home/views/control_acceso_autenticacion/vista_registro_propietario.dart';
 
 class ChooseRegister extends StatelessWidget {
-  ChooseRegister({super.key});
-
-  final photo = Container(
-    width: 160.0,
-    height: 180.0,
-    decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-            fit: BoxFit.cover, image: AssetImage("assets/images/logo.jpg"))),
-  );
+  const ChooseRegister({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +17,7 @@ class ChooseRegister extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            //photo,
+            // Sección "Propietario Electrodomestico"
             Container(
               width: 340,
               padding: const EdgeInsets.all(16.0),
@@ -37,33 +28,43 @@ class ChooseRegister extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  const Text('Usuario Normal',
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        decoration: TextDecoration.none,
-                      ),
-                      textAlign: TextAlign.center),
+                  const Text(
+                    'Propietario Electrodomestico',
+                    style: TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                   const Text(
                     "Si eres un usuario regular que desea utilizar nuestra plataforma para acceder a servicio de gestion de mantenimiento de electrodomesticos, elige esta opción.",
                     style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                        decoration: TextDecoration.none),
-                        textAlign: TextAlign.justify,
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                    ),
+                    textAlign: TextAlign.justify,
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterUserView()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterUserView(),
+                        ),
+                      );
                     },
                     child: const Text('Presiona aqui'),
                   ),
                 ],
               ),
             ),
+
+            // Sección "Experto en Mantenimiento de Electrodomésticos"
             Container(
               width: 340,
               padding: const EdgeInsets.all(16.0),
@@ -74,30 +75,37 @@ class ChooseRegister extends StatelessWidget {
               ),
               child: Column(
                 children: <Widget>[
-                  const Text('Experto en Mantenimiento de Electrodomésticos',
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        decoration: TextDecoration.none,
-                      ),
-                      textAlign: TextAlign.center),
+                  const Text(
+                    'Experto en Mantenimiento de Electrodomésticos',
+                    style: TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                   const Text(
                     "Si eres un profesional con experiencia en la reparación y mantenimiento de electrodomésticos y deseas ofrecer tus servicios a otros usuarios, elige esta opción.",
                     style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
-                        decoration: TextDecoration.none),
-                        textAlign: TextAlign.justify,
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                    ),
+                    textAlign: TextAlign.justify,
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterExpertView()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterExpertView(),
+                        ),
+                      );
                     },
-                    child:
-                        const Text('Presiona aqui'),
+                    child: const Text('Presiona aqui'),
                   ),
                 ],
               ),

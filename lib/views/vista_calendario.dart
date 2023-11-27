@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:notify_home/controllers/alert_dialog.dart';
+import 'package:notify_home/controllers/controlador_experto.dart';
 import 'package:notify_home/controllers/controller_electrodomestico.dart';
 import 'package:notify_home/controllers/controller_evento.dart';
 import 'package:notify_home/models/evento.dart';
@@ -35,7 +36,10 @@ class _CalendarNotifyState extends State<CalendarNotify> {
   String? selectedElectrodomestico;
   String? selectedPrioridad;
   late List<String> items;
+  late List<String> electrodomesticoAsignados;
   final List<String> prioridadOpciones = ['1', '2', '3'];
+
+  late String? expertoId;
 
   late Map<DateTime, List<Evento>> _events;
 
@@ -55,6 +59,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
       hashCode: getHashCode,
     );
 
+    electrodomesticoAsignados = [];
     items = [];
     _loadAppliances();
     _focusedDay = DateTime.now();
@@ -67,12 +72,21 @@ class _CalendarNotifyState extends State<CalendarNotify> {
   }
 
   Future<void> _loadAppliances() async {
+    expertoId = await getExpertoId();
     try {
-      List<String> appliances =
-          (await getApplianceWithInfo(uid)).cast<String>();
-      setState(() {
-        items = appliances;
-      });
+      if (uid != expertoId) {
+        List<String> appliances =
+            (await getElectrodomesticoNombre(uid)).cast<String>();
+        setState(() {
+          items = appliances;
+        });
+      } else {
+        List<String> expertoElectrodomestico =
+            (await getElectrodomesticoNombreExperto(uid));
+        setState(() {
+          electrodomesticoAsignados = expertoElectrodomestico;
+        });
+      }
     } catch (e) {
       print('Error al obtener electrodomésticos: $e');
     }
@@ -124,6 +138,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
       body: ListView(
         children: [
           TableCalendar(
+            // Configuración visual del calendario
             headerStyle: HeaderStyle(
               formatButtonVisible: false,
               titleCentered: true,
@@ -166,6 +181,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                 ),
                 outsideDaysVisible: false),
           ),
+          // Lista de eventos del día seleccionado
           ..._getEventsForTheDay(_selectedDay!).map((event) => ListTile(
                 title: Row(
                   children: [
@@ -233,7 +249,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
     );
   }
 
-//Funciona bien
+  // Botón flotante para agregar eventos al calendario
   FloatingActionButton addEventsToCalendar(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
@@ -247,6 +263,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                         // Campo de texto para el nombre del evento
                         TextFormField(
                           controller: nameEventoController,
                           decoration: const InputDecoration(
@@ -260,12 +277,13 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                           },
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.allow(
-                                RegExp('[a-zA-Z]')),
+                                RegExp('[ a-zA0-Z9]')),
                           ],
                         ),
                         const SizedBox(
                           height: 16,
                         ),
+                        // Menú desplegable para seleccionar la prioridad
                         DropdownButton2<String>(
                           isExpanded: true,
                           hint: const Text(
@@ -299,7 +317,8 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                         const SizedBox(
                           height: 16,
                         ),
-                        if (items.isNotEmpty)
+                        if (items.isNotEmpty && uid != expertoId)
+                        // Menú desplegable para seleccionar electrodoméstico
                           DropdownButton2<String>(
                             isExpanded: true,
                             hint: const Text(
@@ -332,8 +351,39 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                             ),
                           )
                         else
-                          const Text('No hay electrodomésticos disponibles.'),
+                          DropdownButton2<String>(
+                            isExpanded: true,
+                            hint: const Text(
+                              'Seleccione electrodomestico',
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.black),
+                            ),
+                            items: electrodomesticoAsignados
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedElectrodomestico,
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedElectrodomestico = value;
+                              });
+                            },
+                            buttonStyleData: const ButtonStyleData(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              height: 40,
+                              width: 250,
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                            ),
+                          ),
                         const SizedBox(height: 16),
+                        // Campo de texto para la fecha
                         TextFormField(
                           controller: fechaController,
                           decoration: const InputDecoration(
@@ -350,6 +400,7 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                                 lastDate: DateTime(2101));
 
                             if (pickedDate != null) {
+                              // Formatear la fecha seleccionada
                               //pickedDate output format => 2021-03-10 00:00:00.000
                               String formattedDate =
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -362,44 +413,57 @@ class _CalendarNotifyState extends State<CalendarNotify> {
                   },
                 ),
                 actions: <Widget>[
+                  // Botón para cerrar el cuadro de diálogo
                   TextButton(
                     onPressed: () {
                       selectedElectrodomestico = null;
                       selectedPrioridad = null;
+                      nameEventoController.clear();
+                      fechaController.clear();
                       Navigator.of(context).pop(); // Cerrar el AlertDialog
                     },
                     child: const Text('Cerrar'),
                   ),
-                  if (items.isNotEmpty)
-                    TextButton(
-                      onPressed: () async {
-                        if (selectedElectrodomestico != null && selectedPrioridad != null) {
-                          registroEvento(
-                            context,
-                            nameEventoController.text,
-                            int.parse(selectedPrioridad as String),
-                            selectedElectrodomestico as String,
-                            DateTime.parse(fechaController.text),
-                          );
+                  // Botón para aceptar y registrar el evento
+                  TextButton(
+                    onPressed: () async {
+                      if (nameEventoController.text.isEmpty ||
+                          selectedPrioridad == null ||
+                          fechaController.text.isEmpty ||
+                          selectedElectrodomestico == null) {
+                        // Muestra un mensaje de error si algún campo está vacío
+                        showPersonalizedAlert(
+                          context,
+                          "Por favor, complete todos los campos.",
+                          AlertMessageType.error,
+                        );
+                      } else {
+                        // Registra el evento solo si todos los campos están llenos
+                        registroEvento(
+                          context,
+                          nameEventoController.text,
+                          int.parse(selectedPrioridad!),
+                          selectedElectrodomestico!,
+                          DateTime.parse(fechaController.text),
+                        );
 
-                          _loadFirestoreEvents();
-                          nameEventoController.clear();
-                          selectedPrioridad = null;
-                          fechaController.clear();
-                          selectedElectrodomestico = null;
+                        _loadFirestoreEvents();
+                        nameEventoController.clear();
+                        selectedPrioridad = null;
+                        fechaController.clear();
+                        selectedElectrodomestico = null;
 
-                          // Cierra el cuadro de diálogo
-                          showPersonalizedAlert(
-                              context,
-                              "Evento registrado correctamente",
-                              AlertMessageType.notification);
-                          Navigator.of(context).pop();
-                        } else {
-                          print('Ningún electrodoméstico seleccionado.');
-                        }
-                      },
-                      child: const Text('Aceptar'),
-                    ),
+                        // Cierra el cuadro de diálogo
+                        Navigator.of(context).pop();
+                        showPersonalizedAlert(
+                          context,
+                          "Evento registrado correctamente",
+                          AlertMessageType.notification,
+                        );
+                      }
+                    },
+                    child: const Text('Aceptar'),
+                  ),
                 ],
               );
             });

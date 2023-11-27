@@ -1,3 +1,4 @@
+// Clase para representar un electrodoméstico
 class Electrodomestico {
   final String id;
   final String name;
@@ -7,6 +8,7 @@ class Electrodomestico {
   final String expertoId;
   final String user;
 
+  // Constructor para inicializar un objeto Electrodomestico
   Electrodomestico({
     required this.id,
     required this.name,
@@ -17,6 +19,7 @@ class Electrodomestico {
     required this.user,
   });
 
+  // Constructor de fábrica para crear un objeto Electrodomestico desde un mapa JSON
   factory Electrodomestico.fromJson(Map<String, dynamic> json) {
     return Electrodomestico(
       id: json['id'],
@@ -29,6 +32,7 @@ class Electrodomestico {
     );
   }
 
+  // Método para convertir un objeto Electrodomestico a un mapa JSON
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

@@ -1,3 +1,4 @@
+// Vista de la pantalla de inicio de sesión
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class LoginView extends StatelessWidget {
     required this.loginPressed,
   });
 
+  // Widget para la imagen de presentación
   final photo = Container(
     margin: const EdgeInsets.only(
       top: 40.0,
@@ -29,7 +31,8 @@ class LoginView extends StatelessWidget {
         image: DecorationImage(
             fit: BoxFit.cover, image: AssetImage("assets/images/logo.jpg"))),
   );
-  
+
+  // Widget para el mensaje de bienvenida
   final comment = const Text(
     "Hola, Bienvenido a Notify Hogar",
     textAlign: TextAlign.justify,
@@ -45,10 +48,15 @@ class LoginView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Imagen de presentación
             photo,
             SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+
+            // Mensaje de bienvenida
             comment,
             SizedBox(height: MediaQuery.of(context).size.height * 0.035),
+
+            // Campo de correo electrónico
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.91,
               child: TextField(
@@ -63,7 +71,11 @@ class LoginView extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Espaciado después del campo de correo electrónico
             SizedBox(height: 30, width: widthDevice),
+
+            // Campo de contraseña
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.91,
               child: TextField(
@@ -77,12 +89,20 @@ class LoginView extends StatelessWidget {
                 obscureText: true,
               ),
             ),
+
+            // Espaciado después del campo de contraseña
             SizedBox(height: MediaQuery.of(context).size.height * 0.050),
+
+            // Botón de inicio de sesión
             ElevatedButton(
               onPressed: loginPressed,
               child: const Text('Iniciar sesión'),
             ),
+
+            // Espaciado después del botón de inicio de sesión
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+
+            // Enlace para crear una cuenta
             Row(
               mainAxisAlignment: MainAxisAlignment
                   .center, // Alineación de los botones y espacio entre ellos

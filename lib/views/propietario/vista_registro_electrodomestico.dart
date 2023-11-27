@@ -4,6 +4,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:notify_home/controllers/alert_dialog.dart';
 import 'package:notify_home/controllers/controller_electrodomestico.dart';
 import 'package:notify_home/controllers/controller_auxiliar.dart';
 import 'package:notify_home/controllers/controller_evento.dart';
@@ -17,6 +18,7 @@ class ApplianceRegisterView extends StatefulWidget {
 }
 
 class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
+  // Controladores para los campos de texto
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fabricanteController = TextEditingController();
   final TextEditingController modeloController = TextEditingController();
@@ -31,12 +33,18 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
   final TextEditingController frecuenciaUsoController = TextEditingController();
   final TextEditingController ubicacionController = TextEditingController();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // Lista de opciones para la frecuencia de uso
   List<String> items = ["Diario", "3 dias a la semana", "5 dias a la semana"];
   String? selectedValue;
 
+  // Genera un ID único para el electrodoméstico
   String applianceId = generateId();
+
   @override
   Widget build(BuildContext context) {
+    // Estructura del widget para el registro de electrodomésticos
     return Scaffold(
       backgroundColor: const Color.fromARGB(248, 248, 248, 246),
       appBar: AppBar(
@@ -45,10 +53,12 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+          key: _formKey,
           child: Column(children: [
             Expanded(
               child: ListView(children: [
                 const SizedBox(height: 5),
+                // Campo de texto para el nombre del electrodoméstico
                 TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(
@@ -57,7 +67,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     prefixIcon: Icon(Icons.tv),
                   ),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                    FilteringTextInputFormatter.allow(RegExp(r'[ a-zA-Z0-9]')),
                   ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -67,6 +77,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para el fabricante del electrodoméstico
                 TextFormField(
                   controller: fabricanteController,
                   decoration: const InputDecoration(
@@ -85,6 +96,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para el modelo del electrodoméstico
                 TextFormField(
                   controller: modeloController,
                   decoration: const InputDecoration(
@@ -93,7 +105,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                     prefixIcon: Icon(Icons.unfold_more_double_sharp),
                   ),
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
                   ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -104,6 +116,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   readOnly: false,
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para la calificación energética del electrodoméstico
                 TextFormField(
                   controller: calificacionEnergeticaController,
                   decoration: const InputDecoration(
@@ -123,6 +136,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   readOnly: false,
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para la condición ambiental del electrodoméstico
                 TextFormField(
                   controller: condicionAmbController,
                   decoration: const InputDecoration(
@@ -142,6 +156,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   readOnly: false,
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para la fecha de compra del electrodoméstico
                 TextFormField(
                   controller: fechaCompraController,
                   decoration: const InputDecoration(
@@ -164,7 +179,6 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                         lastDate: DateTime.now());
 
                     if (pickedDate != null) {
-                      //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaCompraController.text = formattedDate;
@@ -172,6 +186,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para la fecha de instalación del electrodoméstico
                 TextFormField(
                   controller: fechaInstalacionController,
                   decoration: const InputDecoration(
@@ -194,7 +209,6 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                         lastDate: DateTime.now());
 
                     if (pickedDate != null) {
-                      //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaInstalacionController.text = formattedDate;
@@ -202,6 +216,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para la fecha del último mantenimiento del electrodoméstico
                 TextFormField(
                   controller: fechaUltMantController,
                   decoration: const InputDecoration(
@@ -224,7 +239,6 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                         lastDate: DateTime.now());
 
                     if (pickedDate != null) {
-                      //pickedDate output format => 2021-03-10 00:00:00.000
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(pickedDate);
                       fechaUltMantController.text = formattedDate;
@@ -232,6 +246,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   },
                 ),
                 const SizedBox(height: 16.0),
+                // Campo de texto para el tiempo de uso del electrodoméstico
                 TextFormField(
                   controller: tiempoUsoController,
                   decoration: const InputDecoration(
@@ -252,6 +267,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   readOnly: false,
                 ),
                 const SizedBox(height: 16.0),
+                // Menú desplegable para seleccionar la frecuencia de uso del electrodoméstico
                 DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                   isExpanded: true,
@@ -283,6 +299,7 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
                   ),
                 )),
                 const SizedBox(height: 16.0),
+                // Campo de texto para la ubicación del electrodoméstico
                 TextFormField(
                   controller: ubicacionController,
                   decoration: const InputDecoration(
@@ -301,41 +318,51 @@ class _ApplianceRegisterViewState extends State<ApplianceRegisterView> {
               ]),
             ),
             const SizedBox(height: 25.0),
+            // Botón para registrar el electrodoméstico
             ElevatedButton(
               onPressed: () {
-                int antiguedad = calcularAntiguedadEnAnios(
-                    fechaCompraController.text,
-                    fechaInstalacionController.text);
-                String prioridad = calcularPrioridadMantenimiento(
-                    antiguedad,
-                    fechaUltMantController.text,
-                    frecuenciaUsoController.text,
-                    int.parse(tiempoUsoController.text));
+                if (_formKey.currentState!.validate()) {
+                  // Calcular antigüedad, prioridad y realizar los registros en la base de datos
+                  int antiguedad = calcularAntiguedadEnAnios(
+                      fechaCompraController.text,
+                      fechaInstalacionController.text);
+                  String prioridad = calcularPrioridadMantenimiento(
+                      antiguedad,
+                      fechaUltMantController.text,
+                      frecuenciaUsoController.text,
+                      int.parse(tiempoUsoController.text));
 
-                registerAppliance(
-                    context,
-                    nameController.text,
-                    fabricanteController.text,
-                    modeloController.text,
-                    calificacionEnergeticaController.text,
-                    applianceId);
-                registerHojaVida(
-                    context,
-                    condicionAmbController.text,
-                    fechaCompraController.text,
-                    fechaInstalacionController.text,
-                    fechaUltMantController.text,
-                    tiempoUsoController.text,
-                    selectedValue as String,
-                    ubicacionController.text,
-                    applianceId);
-
-                asignarFechaMantenimiento(
-                    context,
-                    prioridad,
-                    DateTime.parse(fechaUltMantController.text),
-                    "Fecha mantenimiento ${nameController.text}",
-                    nameController.text);
+                  registrarElectrodomestico(
+                      context,
+                      nameController.text,
+                      fabricanteController.text,
+                      modeloController.text,
+                      calificacionEnergeticaController.text,
+                      applianceId);
+                  registrarHojaVida(
+                      context,
+                      condicionAmbController.text,
+                      fechaCompraController.text,
+                      fechaInstalacionController.text,
+                      fechaUltMantController.text,
+                      tiempoUsoController.text,
+                      selectedValue as String,
+                      ubicacionController.text,
+                      applianceId);
+                  //Asigna la fecha de mantenimiento del electrodomestico
+                  asignarFechaMantenimiento(
+                      context,
+                      prioridad,
+                      DateTime.parse(fechaUltMantController.text),
+                      "Fecha mantenimiento ${nameController.text}",
+                      nameController.text);
+                } else {
+                  // Mostrar alerta en caso de errores en el formulario
+                  showPersonalizedAlert(
+                      context,
+                      "Corrija los errores en el formulario",
+                      AlertMessageType.error);
+                }
               },
               child: const Text('Registrar'),
             ),

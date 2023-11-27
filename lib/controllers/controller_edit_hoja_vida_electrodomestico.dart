@@ -1,6 +1,6 @@
-
 // ignore_for_file: library_private_types_in_public_api
 
+// Importaciones necesarias para el archivo
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,20 +12,26 @@ import 'package:notify_home/views/vista_editar_hoja_vida_electrodomestico.dart';
 
 import 'controller_electrodomestico.dart';
 
+// Widget StatefulWidget para la edición de hoja de vida de electrodoméstico
 class HVEditController extends StatefulWidget {
   final Electrodomestico appliance;
   final HojaVidaElectrodomestico hve;
+
+  // Constructor que toma un electrodoméstico y su hoja de vida como parámetros
   const HVEditController(
       {super.key, required this.appliance, required this.hve});
+
   @override
   _ProductEditControllerState createState() => _ProductEditControllerState();
 }
 
 class _ProductEditControllerState extends State<HVEditController> {
+  // Controladores para los campos de texto
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fabricanteController = TextEditingController();
   final TextEditingController modeloController = TextEditingController();
-  final TextEditingController calificacionEnergeticaController = TextEditingController();
+  final TextEditingController calificacionEnergeticaController =
+      TextEditingController();
   final TextEditingController condicionAmbientalController =
       TextEditingController();
   final TextEditingController fechaCompraController = TextEditingController();
@@ -40,10 +46,12 @@ class _ProductEditControllerState extends State<HVEditController> {
   @override
   void initState() {
     super.initState();
+    // Inicialización de controladores con valores actuales
     nameController.text = widget.appliance.name;
     fabricanteController.text = widget.appliance.fabricante;
     modeloController.text = widget.appliance.modelo;
-    calificacionEnergeticaController.text = widget.appliance.calificacionEnergetica;
+    calificacionEnergeticaController.text =
+        widget.appliance.calificacionEnergetica;
     condicionAmbientalController.text = widget.hve.condicionAmbiental;
     fechaCompraController.text =
         DateFormat('yyyy-MM-dd').format(widget.hve.fechaCompra);
@@ -56,8 +64,10 @@ class _ProductEditControllerState extends State<HVEditController> {
     ubicacionController.text = widget.hve.ubicacion;
   }
 
+  // Función para actualizar los datos
   void _update() async {
     try {
+      // Obtención de valores de los controladores
       String name = nameController.text;
       String fabricante = fabricanteController.text;
       String modelo = modeloController.text;
@@ -70,7 +80,7 @@ class _ProductEditControllerState extends State<HVEditController> {
       String frecuenciaUso = frecuenciaUsoController.text;
       String ubicacion = ubicacionController.text;
 
-      //En caso de que un campo quede vacio no se actualiza
+      // Verificación de campos vacíos antes de actualizar
       name.isEmpty ? name = widget.appliance.name : name = nameController.text;
       fabricante.isEmpty
           ? fabricante = widget.appliance.fabricante.toString()
@@ -79,7 +89,8 @@ class _ProductEditControllerState extends State<HVEditController> {
           ? modelo = widget.appliance.modelo.toString()
           : modelo = modeloController.text;
       calificacionEnergetica.isEmpty
-          ? calificacionEnergetica = widget.appliance.calificacionEnergetica.toString()
+          ? calificacionEnergetica =
+              widget.appliance.calificacionEnergetica.toString()
           : calificacionEnergetica = calificacionEnergeticaController.text;
       condicionAmbiental.isEmpty
           ? condicionAmbiental = widget.hve.condicionAmbiental.toString()
@@ -103,6 +114,7 @@ class _ProductEditControllerState extends State<HVEditController> {
           ? ubicacion = widget.hve.ubicacion.toString()
           : ubicacion = ubicacionController.text;
 
+      // Creación de instancias actualizadas de Electrodomestico y HojaVidaElectrodomestico
       Electrodomestico appliance = Electrodomestico(
         id: widget.appliance.id,
         name: name,
@@ -114,22 +126,27 @@ class _ProductEditControllerState extends State<HVEditController> {
       );
 
       HojaVidaElectrodomestico hvel = HojaVidaElectrodomestico(
-          id: widget.hve.id,
-          condicionAmbiental: condicionAmbiental,
-          fechaCompra: DateTime.parse(fechaCompra),
-          fechaInstalacion: DateTime.parse(fechaInstalacion),
-          fechaUltMantenimiento: DateTime.parse(fechaUltMant),
-          tiempoUso: int.parse(tiempoUso),
-          frecuenciaUso: frecuenciaUso,
-          ubicacion: ubicacion,
-          user: uid);
+        id: widget.hve.id,
+        condicionAmbiental: condicionAmbiental,
+        fechaCompra: DateTime.parse(fechaCompra),
+        fechaInstalacion: DateTime.parse(fechaInstalacion),
+        fechaUltMantenimiento: DateTime.parse(fechaUltMant),
+        tiempoUso: int.parse(tiempoUso),
+        frecuenciaUso: frecuenciaUso,
+        ubicacion: ubicacion,
+        user: uid,
+      );
 
+      // Navegación de regreso y llamadas a funciones de actualización
       Navigator.pop(context);
-      updateAppliance(appliance);
-      updateHJAppliance(hvel);
-      showPersonalizedAlert(context, 'Electrodomestico actualizado correctamente',
+      actualizarElectrodomestico(appliance);
+      actualizarHJElectrodomestico(hvel);
+      showPersonalizedAlert(
+          context,
+          'Electrodomestico actualizado correctamente',
           AlertMessageType.success);
     } catch (e) {
+      // Manejo de errores en caso de falla en la actualización
       showPersonalizedAlert(context, 'Error al actualizar el electrodomestico',
           AlertMessageType.error);
     }
@@ -137,6 +154,7 @@ class _ProductEditControllerState extends State<HVEditController> {
 
   @override
   void dispose() {
+    // Liberación de recursos de los controladores al salir del widget
     nameController.dispose();
     fabricanteController.dispose();
     modeloController.dispose();
@@ -153,6 +171,7 @@ class _ProductEditControllerState extends State<HVEditController> {
 
   @override
   Widget build(BuildContext context) {
+    // Devuelve la vista para la edición de la hoja de vida
     return HVEditView(
       nameController: nameController,
       fabricanteController: fabricanteController,

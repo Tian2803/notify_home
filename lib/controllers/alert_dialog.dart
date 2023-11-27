@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+// Función para mostrar una alerta personalizada según el tipo de mensaje
 void showPersonalizedAlert(
     BuildContext context, String message, AlertMessageType alertMessageType) {
   final iconData = _getIconData(alertMessageType);
@@ -22,7 +23,7 @@ void showPersonalizedAlert(
   );
 }
 
-
+// Función para obtener el color de fondo de la SnackBar según el tipo de mensaje
 Color _getSnackBarColor(AlertMessageType alertMessageType) {
   switch (alertMessageType) {
     case AlertMessageType.success:
@@ -34,17 +35,15 @@ Color _getSnackBarColor(AlertMessageType alertMessageType) {
     case AlertMessageType.notification:
       return Colors.blue;
     default:
-      return Colors.blue; // Color por defecto o cualquier otro valor que desees.
+      return Colors
+          .blue; // Color por defecto o cualquier otro valor que desees.
   }
 }
 
-enum AlertMessageType {
-  success,
-  error,
-  warning,
-  notification
-}
+// Enumeración que representa los tipos de mensajes para la alerta personalizada
+enum AlertMessageType { success, error, warning, notification }
 
+// Función para obtener el icono correspondiente a cada tipo de mensaje
 IconData _getIconData(AlertMessageType messageType) {
   switch (messageType) {
     case AlertMessageType.success:

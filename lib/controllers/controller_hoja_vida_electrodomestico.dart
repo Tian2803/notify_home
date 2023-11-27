@@ -1,15 +1,20 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// Ignorar advertencias específicas para el archivo
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
+// Importación de paquetes y archivos necesarios
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // Paquete para formatear fechas
 import 'package:notify_home/controllers/alert_dialog.dart';
 import 'package:notify_home/models/hoja_vida_electrodomestico.dart';
 
-Future<HojaVidaElectrodomestico> getHojaVidaDetails(
+// Función asincrónica para obtener los detalles de la hoja de vida de un electrodoméstico
+Future<HojaVidaElectrodomestico> getHojaVidaElectrodomesticoDetalle(
     String idUser, String idAppliance) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   try {
+    // Consulta a Firestore para obtener la hoja de vida del electrodoméstico específico
     QuerySnapshot snapshot = await firestore
         .collection('hojaVidaElectrodomestico')
         .where('user', isEqualTo: idUser)
@@ -20,6 +25,7 @@ Future<HojaVidaElectrodomestico> getHojaVidaDetails(
       var doc =
           snapshot.docs.first; // Obtén el primer documento del QuerySnapshot
 
+      // Crea y retorna un objeto HojaVidaElectrodomestico a partir de los datos del documento
       return HojaVidaElectrodomestico(
         id: doc.id,
         condicionAmbiental: doc['condicionAmbiental'],
@@ -41,10 +47,12 @@ Future<HojaVidaElectrodomestico> getHojaVidaDetails(
   }
 }
 
-Future<HojaVidaElectrodomestico> getHojaVidaExpertoDetails(
+// Función asincrónica para obtener detalles de la hoja de vida del electrodoméstico para experto
+Future<HojaVidaElectrodomestico> getHojaVidaElectrodomesticoExpertoDetalle(
     String idUser, String idAppliance) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   try {
+    // Consulta a Firestore para obtener la hoja de vida del electrodoméstico específico para experto
     QuerySnapshot snapshot = await firestore
         .collection('hojaVidaElectrodomestico')
         .where('user', isEqualTo: idUser)
@@ -56,6 +64,8 @@ Future<HojaVidaElectrodomestico> getHojaVidaExpertoDetails(
           snapshot.docs.first; // Obtén el primer documento del QuerySnapshot
 
       print(doc.id);
+
+      // Crea y retorna un objeto HojaVidaElectrodomestico a partir de los datos del documento
       return HojaVidaElectrodomestico(
         id: doc.id,
         condicionAmbiental: doc['condicionAmbiental'],
@@ -77,8 +87,9 @@ Future<HojaVidaElectrodomestico> getHojaVidaExpertoDetails(
   }
 }
 
-void updateHJAppliance(HojaVidaElectrodomestico hve) {
-  // Obtén una referencia al documento del producto en Firestore
+// Función para actualizar la información de la hoja de vida del electrodoméstico
+void actualizarHJElectrodomestico(HojaVidaElectrodomestico hve) {
+  // Obtén una referencia al documento del electrodoméstico en Firestore
   DocumentReference applianceRef = FirebaseFirestore.instance
       .collection('hojaVidaElectrodomestico')
       .doc(hve.id);
@@ -91,15 +102,14 @@ void updateHJAppliance(HojaVidaElectrodomestico hve) {
   String fechaUltMantString =
       DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(hve.fechaUltMantenimiento);
 
-  // Actualiza los campos del producto en Firestore
+  // Actualiza los campos del electrodoméstico en Firestore
   applianceRef.update({
     'condicionAmbiental': hve.condicionAmbiental,
     'fechaCompra': fechaCompraString,
     'fechaInstalacion': fechaInstalacionString,
     'fechaUltMantenimiento': fechaUltMantString,
     'tiempoUso': hve.tiempoUso,
-    'frecuenciaUso': hve
-        .frecuenciaUso, // Nota: ¿Es esto intencional? ¿Debería ser 'hve.frecuenciaUso'?
+    'frecuenciaUso': hve.frecuenciaUso,
     'ubicacion': hve.ubicacion,
   }).then((_) {
     print('Electrodomestico actualizado correctamente');
@@ -108,7 +118,8 @@ void updateHJAppliance(HojaVidaElectrodomestico hve) {
   });
 }
 
-void deleteHojaVida(HojaVidaElectrodomestico hojaVida) {
+// Función para eliminar la hoja de vida del electrodoméstico
+void eliminarHojaVidaElectrodomestico(HojaVidaElectrodomestico hojaVida) {
   DocumentReference hojaVidaRef = FirebaseFirestore.instance
       .collection('hojaVidaElectrodomestico')
       .doc(hojaVida.id);
@@ -120,7 +131,8 @@ void deleteHojaVida(HojaVidaElectrodomestico hojaVida) {
   });
 }
 
-void registerHojaVida(
+// Función para registrar una nueva hoja de vida del electrodoméstico
+void registrarHojaVida(
     BuildContext context,
     String condicionAmbiental,
     String fechaCompra,
@@ -131,6 +143,7 @@ void registerHojaVida(
     String ubicacion,
     String applianceId) async {
   try {
+    // Validar que no haya campos vacíos
     if (condicionAmbiental.isEmpty ||
         fechaCompra.isEmpty ||
         fechaInstalacion.isEmpty ||
@@ -140,10 +153,10 @@ void registerHojaVida(
         ubicacion.isEmpty) {
       showPersonalizedAlert(context, 'Por favor, llene todos los campos',
           AlertMessageType.warning);
-      return;
     } else {
       String idUser = FirebaseAuth.instance.currentUser!.uid;
 
+      // Crear un objeto HojaVidaElectrodomestico con los datos proporcionados
       HojaVidaElectrodomestico hje = HojaVidaElectrodomestico(
           id: applianceId,
           condicionAmbiental: condicionAmbiental,
@@ -155,61 +168,32 @@ void registerHojaVida(
           ubicacion: ubicacion,
           user: idUser);
 
+      // Guardar la nueva hoja de vida del electrodoméstico en Firestore
       await FirebaseFirestore.instance
           .collection('hojaVidaElectrodomestico')
           .doc(applianceId)
           .set(hje.toJson());
+
+      // Cerrar la pantalla actual
       Navigator.pop(context);
     }
   } catch (e) {
+    // Mostrar una alerta en caso de error
     showPersonalizedAlert(context, 'Error al registrar el electrodomestico',
         AlertMessageType.error);
   }
 }
 
-Future<List<HojaVidaElectrodomestico>> getHVDetails(String uid) async {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  try {
-    // Realiza la consulta a Firebase Firestore
-    QuerySnapshot snapshot = await firestore
-        .collection('hojaVidaElectrodomestico')
-        .where('user', isEqualTo: uid)
-        .get();
-
-    // Inicializa una lista para almacenar los electrodomésticos
-    List<HojaVidaElectrodomestico> hojaVida = [];
-    // Recorre los documentos y crea instancias de la clase Appliance
-    for (var doc in snapshot.docs) {
-      hojaVida.add(HojaVidaElectrodomestico(
-        id: doc.id,
-        condicionAmbiental: doc['condicionAmbiental'],
-        fechaCompra: DateTime.parse(doc['fechaCompra']),
-        fechaInstalacion: DateTime.parse(doc['fechaInstalacion']),
-        fechaUltMantenimiento: DateTime.parse(doc['fechaUltMantenimiento']),
-        tiempoUso: doc['tiempoUso'],
-        frecuenciaUso: doc['frecuenciaUso'],
-        ubicacion: doc['ubicacion'],
-        user: doc['user'],
-      ));
-    }
-    // Devuelve la lista de electrodomésticos
-    return hojaVida;
-  } catch (e) {
-    // Maneja errores de forma adecuada
-    print(
-        'Error, no se logro obtener la información de los electrodomésticos: $e');
-    throw Exception(
-        'No se pudo obtener la información de los electrodomésticos.');
-  }
-}
-
+// Función para calcular la prioridad de mantenimiento del electrodoméstico
 String calcularPrioridadMantenimiento(int antiguedad,
     String fechaUltimoMantenimiento, String frecuenciaUso, int tiempoUso) {
-      DateTime fechaUltMant = DateTime.parse(fechaUltimoMantenimiento);
+  DateTime fechaUltMant = DateTime.parse(fechaUltimoMantenimiento);
+
+  // Calcular el tiempo transcurrido desde el último mantenimiento en años
   final tiempoDesdeUltimoMantenimiento =
       DateTime.now().difference(fechaUltMant).inDays / 365;
 
+  // Lógica para determinar la prioridad de mantenimiento basada en diferentes condiciones
   if (antiguedad > 2.5 ||
       tiempoDesdeUltimoMantenimiento > 1.5 ||
       (['Diario', '5 días a la semana', '3 días a la semana']
@@ -226,8 +210,9 @@ String calcularPrioridadMantenimiento(int antiguedad,
   }
 }
 
-//Calcula la antiguedad
-int calcularAntiguedadEnAnios(String fechaCompraStr, String fechaInstalacionStr) {
+// Función para calcular la antigüedad en años a partir de las fechas de compra e instalación
+int calcularAntiguedadEnAnios(
+    String fechaCompraStr, String fechaInstalacionStr) {
   // Parsear las fechas desde las cadenas
   DateTime fechaCompra = DateTime.parse(fechaCompraStr);
   DateTime fechaInstalacion = DateTime.parse(fechaInstalacionStr);
